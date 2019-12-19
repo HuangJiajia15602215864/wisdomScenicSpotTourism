@@ -1,19 +1,43 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+   <span>这里是App.vue</span>
+   <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    name: 'app',
+    data() {
+        return {
+            isWechat: false,
+        };
+    },
+    computed: {
+    
+    },
+    watch: {
+        
+    },
+    components: {
+       
+    },
+    methods: {
+        // 检查运行环境
+        checkEnv() {
+            const ua = navigator.userAgent.toLowerCase();
+            if (String(ua.match(/MicroMessenger/i)) === 'micromessenger') {
+                this.isWechat = true;
+            } else {
+                this.isWechat = false;
+            }
+            console.log(this.isWechat)
+        }
+    },
+    created() {
+        this.checkEnv();
+    }
+};
 </script>
 
 <style>
