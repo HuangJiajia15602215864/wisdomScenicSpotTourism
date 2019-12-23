@@ -1,7 +1,7 @@
-$designWidth: 750px;
+$designWidth: 375;
 
-@function px2rem ($px) {
-    @return $px / $designWidth * 10 * 1rem;
+@function px2rem ($) {
+    @return $ / $designWidth * 10 * 1rem;
 }
 
 @function px2vw ($px) {
