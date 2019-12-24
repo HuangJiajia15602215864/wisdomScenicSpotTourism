@@ -3,8 +3,9 @@ import VueRouter from 'vue-router';
 
 // 引入公共路由
  import {
-   logins,
-   introduction
+   user,
+   introduction,
+   buyTicket
  } from '@/common/routes'
 
 Vue.use(VueRouter)
@@ -13,14 +14,15 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            redirect: '/index'
+            redirect: '/home'
         },
         {
             path: '*',
-            redirect: '/index'
+            redirect: '/home'
         },
-        ...logins,
-        ...introduction      
+        ...user,
+        ...introduction,
+        ...buyTicket   
         ]
     })
 

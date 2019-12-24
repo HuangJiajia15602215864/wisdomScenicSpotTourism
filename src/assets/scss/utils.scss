@@ -1,9 +1,15 @@
-$designWidth: 375;
-
-@function px2rem ($) {
-    @return $ / $designWidth * 10 * 1rem;
+@import './reset.scss';
+@function px2rem ($px) {
+    @return $px / $designWidth * 10 * 1rem;
 }
 
 @function px2vw ($px) {
     @return $px / $designWidth * 1vw;
 }
+
+// Component Colors
+@text-color: #22129f;
+@border-color: #22129f;
+@active-color: #22129f;
+@background-color: #f7f8fa;
+@background-color-light: #22129f;
