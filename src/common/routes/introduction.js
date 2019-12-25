@@ -55,7 +55,7 @@ const introduction = [
     meta: {
       level: 2, // 路由层级
       isRequireAuth: false, // 是否需要登录，会根据这个进行路由拦截
-      title: '电子导航' //  网页title
+      title: '电子导游' //  网页title
     }
   },
   {

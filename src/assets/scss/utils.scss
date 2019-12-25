@@ -1,6 +1,6 @@
 @import './reset.scss';
 @function px2rem ($px) {
-    @return $px / $designWidth * 10 * 1rem;
+    @return ($px / $designWidth) * 10 * 1rem ;
 }
 
 @function px2vw ($px) {
@@ -8,8 +8,8 @@
 }
 
 // Component Colors
-@text-color: #22129f;
-@border-color: #22129f;
-@active-color: #22129f;
+@text-color: #3D11EE;
+@border-color: #3D11EE;
+@active-color: #3D11EE;
 @background-color: #f7f8fa;
-@background-color-light: #22129f;
+@background-color-light: #3D11EE;

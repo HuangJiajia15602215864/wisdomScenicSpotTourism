@@ -1,5 +1,5 @@
 // 登录注册模块 ==================
-const login = () => import('@/views/user.vue')
+const login = () => import('@/views/user/login.vue')
 
 const logins = [
   {
