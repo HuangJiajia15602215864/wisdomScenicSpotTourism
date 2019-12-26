@@ -75,7 +75,7 @@
 
 <style lang="scss">
     #app {
-        font-family: 'Avenir', Helvetica, Arial, sans-serif;
+        font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;
         font-size: px2rem(32px);
         -webkit-font-smoothing: antialiased;
