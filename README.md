@@ -22,4 +22,5 @@
 |-- .eslintrc.js      自定义elint代码检查
 |-- .gitignore        忽略的文件
 |-- package.json      项目描述文件
+|-- README.md         文字介绍项目详情
 |-- vue.config.js     项目配置文件

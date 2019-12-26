@@ -2,6 +2,8 @@
 const userCenter = () => import('@/views/user/user-center.vue')
 const login = () => import('@/views/user/login.vue')
 const register = () => import('@/views/user/register.vue')
+const ticketDetail = () => import('@/views/user/ticket-detail.vue')
+const parkingDetail = () => import('@/views/user/parking-detail.vue')
 
 const logins = [
   {
@@ -32,6 +34,26 @@ const logins = [
       level: 2,
       isRequireAuth: false,
       title: '注册' //  网页title
+    }
+  },
+  {
+    path: '/userCenter/ticketDetail',
+    name: 'ticketDetail',
+    component: ticketDetail,
+    meta: {
+      level: 2,
+      isRequireAuth: false,
+      title: '门票详情' //  网页title
+    }
+  },
+  {
+    path: '/userCenter/parkingDetail',
+    name: 'parkingDetail',
+    component: parkingDetail,
+    meta: {
+      level: 2,
+      isRequireAuth: false,
+      title: '停车详情' //  网页title
     }
   },
 ]

@@ -5,7 +5,7 @@ import store from './store.js'
 import '@/assets/scss/reset.scss';
 import '@/assets/iconfont/iconfont.css' // 引入字体样式
 import '@/assets/iconfont/iconfont.js'  // 引入symbol样式
-import { NavBar, Tabbar, TabbarItem,Icon,Swipe, SwipeItem,Grid, GridItem,Lazyload,Field,CellGroup,Collapse, CollapseItem } from 'vant';
+import { NavBar, Tabbar, TabbarItem,Icon,Swipe, SwipeItem,Grid, GridItem,Lazyload,Field,Cell,CellGroup,Collapse, CollapseItem ,Card,Tag} from 'vant';
 
 Vue.config.productionTip = false
 Vue.use(NavBar);
@@ -17,6 +17,9 @@ Vue.use(Lazyload);
 Vue.use(Field);
 Vue.use(CellGroup);
 Vue.use(Collapse).use(CollapseItem);
+Vue.use(Card);
+Vue.use(Tag);
+Vue.use(Cell).use(CellGroup);
 
 new Vue({
   router,
