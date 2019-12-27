@@ -65,7 +65,7 @@ const introduction = [
     meta: {
       level: 2, // 路由层级
       isRequireAuth: false, // 是否需要登录，会根据这个进行路由拦截
-      title: '景区客流' //  网页title
+      title: '数据感知' //  网页title
     }
   },
   {

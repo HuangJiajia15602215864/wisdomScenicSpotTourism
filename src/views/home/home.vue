@@ -54,7 +54,7 @@
           },
           {
             icon: "icon-keliuqushi",
-            text: "景区客流",
+            text: "数据感知",
             to: "/scenicSpotTraffic"
           },
           {
