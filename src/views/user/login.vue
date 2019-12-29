@@ -105,5 +105,6 @@
     border-radius: px2rem(10px);
     margin: px2rem(120px) px2rem(50px);
     padding: px2rem(25px) 0;
+    text-align: center;
   }
 </style>

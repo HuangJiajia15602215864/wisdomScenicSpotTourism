@@ -1,17 +1,16 @@
 <template>
     <div id="ticketDetail">
         <van-cell-group>
-            <van-cell title="门票名称" :value="item.title" icon="location-o" />
-            <van-cell title="门票日期" :value="item.date" icon="location-o" />
-            <van-cell title="门票价格" :value="'￥'+item.price" icon="location-o" />
-            <van-cell title="门票数量" :value="item.num +'张'" icon="location-o" />
-            <van-cell title="门票类型" :value="item.ticketType | ticketTypeFilter" icon="location-o" />
-            <van-cell title="门票详情" :label="item.desc" icon="location-o" />
+            <van-cell title="门票名称" :value="item.title" icon="coupon-o" />
+            <van-cell title="门票日期" :value="item.date" icon="notes-o" />
+            <van-cell title="门票价格" :value="'￥'+item.price" icon="balance-o" />
+            <van-cell title="门票数量" :value="item.num +'张'" icon="paid" />
+            <van-cell title="门票类型" :value="item.ticketType | ticketTypeFilter" icon="browsing-history-o" />
+            <van-cell title="门票详情" :label="item.desc" icon="comment-o" />
         </van-cell-group>
         <div class="qrCode">
             <div class="qrCodeTip">请出示此二维码给检票员</div>
             <img class="qrCodeImg" />
-
         </div>
     </div>
 </template>
@@ -66,9 +65,12 @@
         font-size: px2rem(30px);
         line-height: px2rem(45px);
 
+        &__left-icon{
+            font-size:px2rem(40px);
+        }
+
         &__title {
-            margin: 0 px2rem(-50px) 0 0;
-            width: px2rem(250px);
+            margin: 0 px2rem(-150px) 0 0;
         }
 
         &__label {

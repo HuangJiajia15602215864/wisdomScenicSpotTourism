@@ -4,7 +4,7 @@ const flowSituationOption={
     tooltip: {
       trigger: 'axis',
       axisPointer: { // 坐标轴指示器，坐标轴触发有效
-        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+        type: 'line' // 默认为直线，可选为：'line' | 'shadow'
       }
     },
     grid: {
@@ -117,7 +117,10 @@ const flowChangeOption={
       data: ['7:00', '9:00', '11:00', '13:00', '15:00', '17:00', '19:00']
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
+      axisLabel: {
+        formatter: '{value} 人次'
+    }
     },
     series: [{
         name: '海洋馆',
@@ -152,9 +155,148 @@ const flowChangeOption={
     ]
   };
 
+const temperatureChangeOption = {
+  tooltip: {
+      trigger: 'axis'
+  },
+  xAxis:  {
+      type: 'category',
+      boundaryGap: false,
+      data: ['7:00', '9:00', '11:00', '13:00', '15:00', '17:00', '19:00', '21:00']
+  },
+  yAxis: {
+      type: 'value',
+      axisLabel: {
+          formatter: '{value} °C'
+      }
+  },
+  series: [
+      {
+          name:'景区温度',
+          type:'line',
+          data:[9, 13, 15, 17,18,16 , 13, 10,],
+          markPoint: {
+              data: [
+                  {type: 'max', name: '最大值'},
+                  {type: 'min', name: '最小值'}
+              ]
+          },
+          markLine: {
+              data: [
+                  {type: 'average', name: '平均值'}
+              ]
+          },
+          itemStyle: {
+            normal: {
+                color: '#ff8000', //改变折线点的颜色
+                lineStyle: {
+                    color: '#ff8000' //改变折线颜色
+                }
+            }
+        }          
+      },
+  ]
+};
+
+const humidityChangeoption = {
+  tooltip: {
+   trigger: 'axis'
+},
+xAxis:  {
+   type: 'category',
+   boundaryGap: false,
+   data: ['7:00', '9:00', '11:00', '13:00', '15:00', '17:00', '19:00', '21:00']
+},
+yAxis: {
+   type: 'value',
+   axisLabel: {
+       formatter: '{value} °C'
+   }
+},
+series: [
+   {
+       name:'景区湿度',
+       type:'line',
+       data:[89, 63, 55, 47,38,46 , 53, 79],
+       markPoint: {
+           data: [
+               {type: 'max', name: '最大值'},
+               {type: 'min', name: '最小值'}
+           ]
+       },
+       markLine: {
+           data: [
+               {type: 'average', name: '平均值'}
+           ]
+       },
+       itemStyle: {
+        normal: {
+            color: '#0066ff', //改变折线点的颜色
+            lineStyle: {
+                color: '#0066ff' //改变折线颜色
+            }
+        }
+    },
+   },
+]
+};
+
+const airQualityChangeoption = {
+  tooltip: {
+   trigger: 'axis'
+},
+legend: {
+   data:['景区空气质量']
+},
+xAxis:  {
+   type: 'category',
+   boundaryGap: false,
+   data: ['7:00', '9:00', '11:00', '13:00', '15:00', '17:00', '19:00', '21:00']
+},
+yAxis: {
+   type: 'value',
+   axisLabel: {
+       formatter: '{value} '
+   }
+},
+series: [
+   {
+       name:'景区湿度',
+       type:'line',
+       data:[69, 63, 55, 47,38,46 , 53, 79],
+       markPoint: {
+           data: [
+               {type: 'max', name: '最大值'},
+               {type: 'min', name: '最小值'}
+           ]
+       },
+       markLine: {
+           data: [
+               {type: 'average', name: '平均值'}
+           ]
+       },
+         itemStyle: {
+             normal: {
+                 color: '#ff3333', //改变折线点的颜色
+                 lineStyle: {
+                     color: '#ff3333' //改变折线颜色
+                 }
+             }
+         },
+       
+   },
+]
+};
+
+
+
+
 export default {
     flowSituationOption,
     flowTrendOption,
     ticketSalesOption,
-    flowChangeOption
+    flowChangeOption,
+    temperatureChangeOption,
+    humidityChangeoption,
+    airQualityChangeoption
 }

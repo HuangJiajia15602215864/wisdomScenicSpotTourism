@@ -1,17 +1,28 @@
-// 登录注册模块 ==================
-const login = () => import('@/views/user/login.vue')
+// 购票模块 ==================
+const ticketReservation = () => import('@/views/ticket/ticket-reservation.vue')
+const editTourist = () => import('@/views/ticket/edit-tourist.vue')
 
-const logins = [
+const buyTicket = [
   {
-    path: '/login',
-    name: 'login',
-    component: login,
+    path: '/ticketReservation',
+    name: 'ticketReservation',
+    component: ticketReservation,
     meta: {
       level: 1,
       isRequireAuth: false,
-      title: '登录' //  网页title
+      title: '门票预订' //  网页title
+    }
+  },
+  {
+    path: '/ticketReservation/editTourist',
+    name: 'editTourist',
+    component: editTourist,
+    meta: {
+      level: 2,
+      isRequireAuth: false,
+      title: '编辑游客' //  网页title
     }
   }
 ]
 
-export default logins
+export default buyTicket

@@ -8,7 +8,7 @@
         </div>
         <van-tabbar v-model="active" active-color="#3D11EE" inactive-color="#717171" route v-if="isShowTab">
             <van-tabbar-item icon="browsing-history" to="/home">玩转景区</van-tabbar-item>
-            <van-tabbar-item icon="shop-collect" to='/login'>购票入口</van-tabbar-item>
+            <van-tabbar-item icon="shop-collect" to='/ticketReservation'>购票入口</van-tabbar-item>
             <van-tabbar-item icon="manager" to='/userCenter'>个人中心</van-tabbar-item>
         </van-tabbar>
     </div>
@@ -105,6 +105,8 @@
         border-bottom: px2rem(1px) solid #ccc;
         line-height: px2rem(88px);
         font-size: px2rem(34px);
+        z-index:100;
+        margin-top:px2rem(-5px)
 
         &__title {
             color: #3D11EE;

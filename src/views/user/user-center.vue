@@ -3,9 +3,12 @@
         <div class="image"></div>
 
         <van-collapse v-model="activeNames" accordion>
-            <van-collapse-item title="我的门票" name="myTicket" icon="shop-o" :class="activeNames=='myTicket'?'active':''">
+            <van-collapse-item name="myTicket" :class="activeNames=='myTicket'?'active':''">
+                <div slot="title" class="collapse-title"><span
+                        class="icon iconfont collapse-icon">&#xe67b;</span><span>我的门票</span></div>
                 <!-- 手风琴——门票 -->
-                <van-card  v-for="(item,index) in ticketList" :key="index" :num="item.num" :price="item.price" :title="item.title" :thumb="item.thumb" @click="showTicketDetail('ticket',item)">
+                <van-card v-for="(item,index) in ticketList" :key="index" :num="item.num" :price="item.price"
+                    :title="item.title" :thumb="item.thumb" @click="showTicketDetail('ticket',item)">
                     <div slot="tags">
                         <div>{{item.desc}}</div>
                         <div>日期：{{item.date}}</div>
@@ -20,10 +23,12 @@
                     </div>
                 </van-card>
             </van-collapse-item>
-            <van-collapse-item title="我的停车" name="myParking" icon="shop-o"
-                :class="activeNames=='myParking'?'active':''">
+            <van-collapse-item name="myParking" :class="activeNames=='myParking'?'active':''">
+                <div slot="title" class="collapse-title"><span
+                        class="icon iconfont collapse-icon">&#xe6ca;</span><span>我的停车</span></div>
                 <!-- 手风琴——停车 -->
-                <van-card  v-for="(item,index) in parkingList" :key="index" :price="item.price" :title="item.carNum" :desc="item.parkingNum" :thumb="item.thumb" @click="showTicketDetail('parking',item)">
+                <van-card v-for="(item,index) in parkingList" :key="index" :price="item.price" :title="item.carNum"
+                    :desc="item.parkingNum" :thumb="item.thumb" @click="showTicketDetail('parking',item)">
                     <div slot="tags">
                         <div>时间{{item.date}}</div>
                         <div class="logo used" v-if="item.status==0">已使用</div>
@@ -47,24 +52,93 @@
         data() {
             return {
                 activeNames: '',
-                ticketList:[
-                    {id:'1',title:'长隆水上乐园',desc:'适合盛夏体验水上乐趣',date:'2019-01-02~2020-01-01',status:'0',num:'2',price:'200.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg',ticketType:'0'},
-                    {id:'2',title:'长隆海洋馆',desc:'与海豚白鲸等海洋动物亲密接触',date:'2019-01-02~2019-03-30',status:'1',num:'3',price:'200.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg',ticketType:'1'},
-                    {id:'3',title:'植物园热带温室',desc:'体验热带风光',date:'2019-01-02~2019-01-02',status:'2',num:'5',price:'50.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg',ticketType:'2'},
-                    {id:'4',title:'岭南印象园+星空馆',desc:'玫瑰丛下，见证爱情',date:'2019-12-25~2020-0-0',status:'1',num:'2',price:'60.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg',ticketType:'3'},
+                ticketList: [{
+                        id: '1',
+                        title: '长隆水上乐园',
+                        desc: '适合盛夏体验水上乐趣',
+                        date: '2019-01-02~2020-01-01',
+                        status: '0',
+                        num: '2',
+                        price: '200.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
+                        ticketType: '0'
+                    },
+                    {
+                        id: '2',
+                        title: '长隆海洋馆',
+                        desc: '与海豚白鲸等海洋动物亲密接触',
+                        date: '2019-01-02~2019-03-30',
+                        status: '1',
+                        num: '3',
+                        price: '200.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
+                        ticketType: '1'
+                    },
+                    {
+                        id: '3',
+                        title: '植物园热带温室',
+                        desc: '体验热带风光',
+                        date: '2019-01-02~2019-01-02',
+                        status: '2',
+                        num: '5',
+                        price: '50.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
+                        ticketType: '2'
+                    },
+                    {
+                        id: '4',
+                        title: '岭南印象园+星空馆',
+                        desc: '玫瑰丛下，见证爱情',
+                        date: '2019-12-25~2020-0-0',
+                        status: '1',
+                        num: '2',
+                        price: '60.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
+                        ticketType: '3'
+                    },
                 ],
-                parkingList:[
-                    {id:'1',carNum:'粤A-32431',parkingNum:'A区336',date:'2019-01-02 15:00',status:'0',price:'20.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {id:'2',carNum:'粤A-23221',parkingNum:'C区336',date:'2019-01-02 15:00',status:'1',price:'20.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {id:'3',carNum:'川A-32232',parkingNum:'B区336',date:'2019-01-02 15:00',status:'2',price:'20.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
-                    {id:'4',carNum:'京A-36431',parkingNum:'D区336',date:'2019-01-02 15:00',status:'0',price:'20.00',thumb:'https://img.yzcdn.cn/vant/t-thirt.jpg'},
+                parkingList: [{
+                        id: '1',
+                        carNum: '粤A-32431',
+                        parkingNum: 'A区336',
+                        date: '2019-01-02 15:00',
+                        status: '0',
+                        price: '20.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
+                    },
+                    {
+                        id: '2',
+                        carNum: '粤A-23221',
+                        parkingNum: 'C区336',
+                        date: '2019-01-02 15:00',
+                        status: '1',
+                        price: '20.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
+                    },
+                    {
+                        id: '3',
+                        carNum: '川A-32232',
+                        parkingNum: 'B区336',
+                        date: '2019-01-02 15:00',
+                        status: '2',
+                        price: '20.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
+                    },
+                    {
+                        id: '4',
+                        carNum: '京A-36431',
+                        parkingNum: 'D区336',
+                        date: '2019-01-02 15:00',
+                        status: '0',
+                        price: '20.00',
+                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
+                    },
                 ],
             };
         },
-        filters: {
-        },
+        filters: {},
         computed: {
-        
+
         },
         watch: {
 
@@ -73,15 +147,25 @@
 
         },
         methods: {
-            showTicketDetail(type,item){
+            showTicketDetail(type, item) {
                 console.log("点击跳转")
                 console.log(item)
-                if(item.status!='1') return;
-                if(type=='ticket'){
-                    this.$router.push({ path: '/userCenter/ticketDetail', query: {item: item} });
-                }else{
-                    this.$router.push({ path: '/userCenter/parkingDetail', query: {item: item} });
-                } 
+                if (item.status != '1') return;
+                if (type == 'ticket') {
+                    this.$router.push({
+                        path: '/userCenter/ticketDetail',
+                        query: {
+                            item: item
+                        }
+                    });
+                } else {
+                    this.$router.push({
+                        path: '/userCenter/parkingDetail',
+                        query: {
+                            item: item
+                        }
+                    });
+                }
             }
         },
         created() {
@@ -90,26 +174,25 @@
     };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
     .image {
         width: 100%;
         height: px2rem(380px);
-        margin-bottom: px2rem(30px);
+        /* margin-bottom: px2rem(30px); */
         /* background-image: url(""); */
         border: 1px solid red;
     }
 
-    .van-cell__left-icon,
-    .van-cell__right-icon {
-        font-size: px2rem(42px);
-    }
+    .van-cell {
+        padding: px2rem(20px) 0 0 0;
+        border-bottom: px2rem(1px) solid #ddd;
 
-    .van-cell__title {
-        margin-left: px2rem(20px);
-        text-align: left;
+        .van-cell__right-icon {
+            font-size: px2rem(42px);
+        }
 
-        span {
-            font-size: px2rem(30px);
+        .van-cell__title {
+            text-align: left;
         }
     }
 
@@ -122,24 +205,47 @@
         }
     }
 
-    .van-card__content{
-        text-align: left;
-        .van-card__title{
-            font-size: px2rem(32px)!important;
-            line-height:px2rem(45px)!important;
-            font-weight:500!important;
-            color: #3D11EE !important;
-        }
-        .van-tag--danger.van-tag--plain{
-            color:green;
-            border:px2rem(1px) solid green;
-        }
-        .van-card__price{
-            color: red;
+    .collapse-title {
+        padding: 0 px2rem(20px) px2rem(20px) px2rem(20px);
+        font-size: px2rem(36px);
+
+        .collapse-icon {
+            font-size: px2rem(40px);
+            margin-right: px2rem(30px);
         }
     }
 
-   .logo {
+    .van-collapse-item__content {
+        padding: px2rem(25px);
+
+        .van-card {
+            padding: px2rem(20px) px2rem(30px) px2rem(10px) 0;
+            border-bottom: px2rem(1px) solid #ddd;
+        }
+
+        .van-card__content {
+            text-align: left;
+
+            .van-card__title {
+                font-size: px2rem(32px) !important;
+                line-height: px2rem(45px) !important;
+                font-weight: 500 !important;
+                color: #3D11EE !important;
+            }
+
+            .van-tag--danger.van-tag--plain {
+                color: green;
+                border: px2rem(1px) solid green;
+            }
+
+            .van-card__price {
+                color: red;
+            }
+        }
+    }
+
+
+    .logo {
         height: px2rem(100px);
         width: px2rem(100px);
         border-radius: 50%;
@@ -151,18 +257,21 @@
         position: absolute;
         right: px2rem(-50px);
         top: px2rem(-40px);
-        z-index:1;
-      }
-      .overdue {
+        z-index: 1;
+    }
+
+    .overdue {
         border: 1px solid #F66862;
         color: #F66F6A;
-      }
-      .used {
+    }
+
+    .used {
         border: 1px solid #ff9900;
         color: #ff9900;
-      }
-      .unused {
+    }
+
+    .unused {
         border: 1px solid #55C463;
         color: #55C463;
-      }
+    }
 </style>
