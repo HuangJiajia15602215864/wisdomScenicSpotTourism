@@ -19,14 +19,15 @@
       </van-collapse-item>
     </van-collapse>
 
-    <div class="ticket-line">
+    <div class="ticket-line" @click="showPopup">
       <div>
         <span class="icon iconfont iconfont-title">&#xe60a;</span>
         <span class="ticket-title">游玩日期</span>
       </div>
-      <span class="icon iconfont ticket-select" v-if="!selectPlayDate" @click="showPopup"
-        style="margin-right: 25px">&#xe62c;</span>
       <span class="ticket-select" v-if="selectPlayDate">{{selectPlayDate}}</span>
+      <span class="icon iconfont ticket-select" v-if="!selectPlayDate" 
+        style="margin-right: 25px">&#xe62c;</span>
+
     </div>
 
     <div class="ticket-line">
@@ -61,10 +62,10 @@
     </div>
 
     <div class="pay-button">￥{{ticketPay}}/确认支付</div>
-    <!-- <van-popup v-model="showSelectPopup" position="bottom">
+    <van-popup v-model="showSelectPopup" position="bottom">
       <van-datetime-picker class="datetime-picker" @confirm="confirmSelect" @cancel="cancelSelect" @change="getValues"
         v-model="currentDate" :title="title" :type="type" :min-date="minDate" :max-date="maxDate" />
-    </van-popup> -->
+    </van-popup>
   </div>
 </template>
 <script>
@@ -81,7 +82,8 @@
       return {
         ticketType: '0',
         selectTicketType: '',
-        selectPlayDate: '',
+        currentPlayDate:'',// 当前选择器上时间
+        selectPlayDate: '',// 确认选择时间
         touristsNumber: '',
         showSelectPopup: false,
         title: "请选择游玩日期",
@@ -147,6 +149,13 @@
           sum += Number(price);
         }
         return sum;
+      },
+            // 预约最大的日期（可提前七天预约）
+            maxDate() {
+        var currentDate = new Date().valueOf();
+        var maxDate = currentDate + 7 * 24 * 60 * 60 * 1000;
+        maxDate = new Date(maxDate);
+        return maxDate;
       }
     },
     mounted() {
@@ -166,10 +175,17 @@
       showPopup() {
         this.showSelectPopup = true;
       },
+      // 获取选择数据
+      getValues(value) {
+        var year=value.children[0].options[value.children[0].currentIndex];
+        var month=value.children[1].options[value.children[1].currentIndex];
+        var date=value.children[2].options[value.children[2].currentIndex];
+        this.currentPlayDate=year+'-'+month+'-'+date;
+      },
       // 确定选择
       confirmSelect() {
         this.showSelectPopup = false;
-        this.selectPlayDate = "2020年01月01日";
+        this.selectPlayDate = this.currentPlayDate;
       },
       // 取消选择
       cancelSelect() {

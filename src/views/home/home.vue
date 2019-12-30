@@ -95,10 +95,10 @@
 <style lang="scss" scope>
   .swipe {
     width: 100%;
-    height: px2rem(380px);
+    height: px2rem(380px)!important;
 
     .swipe-img {
-      height: 100%;
+      height: px2rem(380px);
       width: 100%;
     }
   }

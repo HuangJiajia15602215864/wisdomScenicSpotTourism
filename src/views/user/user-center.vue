@@ -1,11 +1,16 @@
 <template>
     <div id="userCenter">
         <div class="user-info">
-         <div class="user-portrait"></div>
-         <div class="user-tel">{{tel}}</div>
+            <div class="user-card">
+                <div class="user-type"></div>
+                <div class="user-type-desc">{{userType}}</div>
+                <div class="user-portrait"></div>
+                <div class="user-name">{{name}}</div>
+                <div class="user-tel">{{tel}}</div>
+            </div>
         </div>
 
-        <van-collapse v-model="activeNames" accordion>
+        <van-collapse v-model="activeNames" accordion style="margin-top: 90px;">
             <van-collapse-item name="myTicket" :class="activeNames=='myTicket'?'active':''">
                 <div slot="title" class="collapse-title"><span
                         class="icon iconfont collapse-icon">&#xe67b;</span><span>我的门票</span></div>
@@ -54,6 +59,8 @@
         name: 'userCenter',
         data() {
             return {
+                userType:'尊贵会员',
+                name:'小游用户',
                 activeNames: '',
                 ticketList: [{
                         id: '1',
@@ -141,9 +148,9 @@
         },
         filters: {},
         computed: {
-            tel(){
-                var tel='15602215864';
-                return  tel.substr(0,3)+"****"+tel.substr(7);  
+            tel() {
+                var tel = '15602215864';
+                return tel.substr(0, 3) + "****" + tel.substr(7);
             }
         },
         watch: {
@@ -184,23 +191,65 @@
     .user-info {
         width: 100%;
         height: px2rem(380px);
-        background-color:  #3D11EE;
-        .user-portrait{
-            border: px2rem(5px) solid #fff;
-            border-radius:50%;
-            width:px2rem(150px);
-            height:px2rem(150px);
+        background-color: #3D11EE;
+
+        .user-card {
+            background-color: #fff;
+            width: px2rem(640px);
+            height: px2rem(350px);
             position: absolute;
-            top:px2rem(150px);
-            left: px2rem(270px);
+            top: px2rem(100px);
+            left: px2rem(30px);
+            border-radius: px2rem(10px);
+            z-index: 100;
+            border-bottom:px2rem(15px) solid #3D11EE;
+        }
+
+        .user-type{
+            width:0;
+            height: 0;
+            border:px2rem(30px) solid #F5DA70 ;
+            border-right-width:px2rem(200px);
+            border-left-width:px2rem(20px);
+            border-left-color: transparent;
+            position: absolute;
+            top: px2rem(70px);
+            left: px2rem(435px);
+        }
+
+        .user-type-desc{
+            background:linear-gradient(left, #F5DA70, #C78728) ;
+            width: px2rem(170px);
+            padding: px2rem(14px) px2rem(0px) px2rem(14px) px2rem(24px);
+            z-index: 1000;
+            position: absolute;
+            top: px2rem(70px);
+            left: px2rem(460px);
+            color: #fff;
+        }
+
+        .user-portrait {
+            border: px2rem(5px) solid #fff;
+            border-radius: 50%;
+            width: px2rem(130px);
+            height: px2rem(130px);
+            position: absolute;
+            top: px2rem(180px);
+            left: px2rem(30px);
             background: url("../../assets/images/portrait.png") center center no-repeat;
             background-size: 100% 100%;
         }
-        .user-tel{
-            color: #fff;
+
+        .user-name{
             position: absolute;
-            top:px2rem(320px);
-            left: px2rem(240px);
+            top: px2rem(210px);
+            left: px2rem(170px);
+        }
+
+        .user-tel {
+            position: absolute;
+            top: px2rem(250px);
+            left: px2rem(170px);
         }
     }
 
@@ -218,7 +267,6 @@
     }
 
     .active {
-
         .van-cell__title span,
         .van-cell__left-icon,
         .van-cell__right-icon {

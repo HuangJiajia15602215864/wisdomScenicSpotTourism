@@ -28,8 +28,9 @@
     data() {
       return {
         carNum: '',
-        parkingDate: '2019年09月02日',
-        parkingTime: '11:00',
+        parkingDate: '',
+        parkingTime: '',
+        currentSelectDate:'',
         showSelectPopup: false,
         title: "请选择停车日期",
         type: "date", //type:date/time
@@ -65,6 +66,11 @@
       // 确定选择
       confirmSelect() {
         this.showSelectPopup = false;
+         if (this.currentSelectDate.indexOf('-')>-1) {
+           this.parkingDate=this.currentSelectDate;
+         }else{
+           this.parkingTime=this.currentSelectDate;
+         }
       },
       // 取消选择
       cancelSelect() {
@@ -72,30 +78,16 @@
       },
       // 获取选择数据
       getValues(value) {
-        if (value.children[2].currentIndex) { // 日期
-          console.log(1111)
-          var currentDate = new Date();
-          var currentYear = currentDate.getFullYear();
-          var currentMonth = currentDate.getMonth() + 1;
-          var currentDate = currentDate.getDate();
-          var year=currentYear+value.children[0].currentIndex;
-          var month=(currentMonth+value.children[1].currentIndex)%12;
-          var date=currentDate+value.children[2].currentIndex;
-          this.parkingDate=year+'年'+month+'月'+date+'日';
-          console.log(this.parkingDate)
+        if (value.children.length==3) { // 日期
+        var year=value.children[0].options[value.children[0].currentIndex];
+        var month=value.children[1].options[value.children[1].currentIndex];
+        var date=value.children[2].options[value.children[2].currentIndex];
+        this.currentSelectDate=year+'-'+month+'-'+date;
        } else { // 时间
-          console.log(2222)
-          var hourParameter = value.children[0].currentIndex;
-          var minuteParameter = value.children[1].currentIndex;
-          var hour = hourParameter + 7 >= 10 ? hourParameter + 7 : '0' + Number(hourParameter + 7); // 可选时间段为7:00~21:00
-          var minute = minuteParameter >= 10 ? minuteParameter : '0' + minuteParameter;
-          this.parkingTime = hour + ':' + minute;
+        var hour = value.children[0].options[value.children[0].currentIndex];
+        var minute= value.children[1].options[value.children[1].currentIndex];
+        this.currentSelectDate=hour+':'+minute;
         }
-        console.log(value)
-        console.log(value.children[0].currentIndex);
-        console.log(value.children[1].currentIndex);
-        console.log(value.children[2].currentIndex);
-
       }
 
     },
