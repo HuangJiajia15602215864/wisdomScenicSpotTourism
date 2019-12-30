@@ -92,7 +92,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .swipe {
     width: 100%;
     height: px2rem(380px);

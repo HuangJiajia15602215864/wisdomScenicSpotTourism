@@ -65,7 +65,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .contain {
     background: #F8F8FA;
     width: 100%;

@@ -1,6 +1,9 @@
 <template>
     <div id="userCenter">
-        <div class="image"></div>
+        <div class="user-info">
+         <div class="user-portrait"></div>
+         <div class="user-tel">{{tel}}</div>
+        </div>
 
         <van-collapse v-model="activeNames" accordion>
             <van-collapse-item name="myTicket" :class="activeNames=='myTicket'?'active':''">
@@ -138,7 +141,10 @@
         },
         filters: {},
         computed: {
-
+            tel(){
+                var tel='15602215864';
+                return  tel.substr(0,3)+"****"+tel.substr(7);  
+            }
         },
         watch: {
 
@@ -175,16 +181,31 @@
 </script>
 
 <style lang="scss" scope>
-    .image {
+    .user-info {
         width: 100%;
         height: px2rem(380px);
-        /* margin-bottom: px2rem(30px); */
-        /* background-image: url(""); */
-        border: 1px solid red;
+        background-color:  #3D11EE;
+        .user-portrait{
+            border: px2rem(5px) solid #fff;
+            border-radius:50%;
+            width:px2rem(150px);
+            height:px2rem(150px);
+            position: absolute;
+            top:px2rem(150px);
+            left: px2rem(270px);
+            background: url("../../assets/images/portrait.png") center center no-repeat;
+            background-size: 100% 100%;
+        }
+        .user-tel{
+            color: #fff;
+            position: absolute;
+            top:px2rem(320px);
+            left: px2rem(240px);
+        }
     }
 
     .van-cell {
-        padding: px2rem(20px) 0 0 0;
+        padding: px2rem(20px) px2rem(15px) 0 px2rem(10px);
         border-bottom: px2rem(1px) solid #ddd;
 
         .van-cell__right-icon {

@@ -43,7 +43,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .van-cell {
     color: #3D11EE;
     font-size: px2rem(32px);

@@ -62,7 +62,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .contain {
     width: 100%;
     height: 100%;

@@ -59,7 +59,7 @@
     };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
     .van-cell {
         padding: px2rem(20px);
         font-size: px2rem(30px);

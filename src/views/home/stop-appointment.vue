@@ -102,7 +102,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .image {
     width: 100%;
     height: px2rem(380px);

@@ -73,7 +73,7 @@
     };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
     #app {
         font-family: PingFangSC-Regular, PingFang SC;
         font-weight: 400;

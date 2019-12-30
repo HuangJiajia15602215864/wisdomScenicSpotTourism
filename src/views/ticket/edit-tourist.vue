@@ -75,7 +75,7 @@
   };
 </script>
 
-<style lang="scss">
+<style lang="scss" scope>
   .van-cell {
     font-size: px2rem(32px);
   }
