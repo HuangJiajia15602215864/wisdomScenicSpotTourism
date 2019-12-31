@@ -25,9 +25,9 @@
         name: 'app',
         data() {
             return {
-                isWechat: false,
-                title: '掌上导游',
-                active: 0,
+                isWechat: false,// 控制顶部导航栏和固定定位元素
+                title: '掌上导游',// 顶部导航栏标题
+                active: 0, // 底部导航栏默认状态
                 isShowTab:false,// 是否展示底部标签栏
                 isShowBack:false // 是否展示顶部返回按钮
             };
@@ -50,9 +50,6 @@
                 }
             }
         },
-        components: {
-
-        },
         methods: {
             // 检查运行环境
             checkEnv() {
@@ -62,6 +59,7 @@
                 } else {
                     this.isWechat = false;
                 }
+                this.$store.commit('setIsWechat',  this.isWechat || '');
             },
             goBack() {
                 this.$router.go(-1)
@@ -82,16 +80,9 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
-    * {
-        margin: 0px;
-        padding: 0px;
-    }
-
     .main {
         position: relative;
         box-sizing: border-box;
-        width: 100%;
-        height: 100%;
         overflow: auto;
     }
 
@@ -111,7 +102,7 @@
         &__title {
             color: #3D11EE;
             line-height: px2rem(88px);
-            font-size: px2rem(30px);
+            font-size: px2rem(32px);
             font-weight: 600;
         }
 
@@ -123,18 +114,18 @@
     }
 
     .van-tabbar {
-        height: px2rem(88px);
+        height: px2rem(100px);
         border-top: px2rem(1px) solid #ccc;
 
         .van-tabbar-item {
-            font-size: px2rem(20px);
+            font-size: px2rem(24px);
             line-height: px2rem(24px);
         }
 
         .van-icon {
-            font-size: px2rem(38px);
+            font-size: px2rem(40px);
             line-height: px2rem(30px);
-            margin-top: px2rem(5px);
+            margin: px2rem(5px) 0;
         }
     }
 </style>

@@ -114,5 +114,9 @@
       margin: px2rem(20px) 0;
       color: #3D11EE;
     }
+
+    .grid-text{
+      font-size: px2rem(28px);
+    }
   }
 </style>

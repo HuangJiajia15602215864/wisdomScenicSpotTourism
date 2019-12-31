@@ -1,8 +1,9 @@
 <template>
   <div id="scenicSpotIntroduction" class="contain">
-    <form action="/">
+    <!-- <form action="/">
       <van-search placeholder="请输入关键词" v-model="value" @search="onSearch" @clear="onClear" />
-    </form>
+    </form> -->
+    <Search></Search>
     <div class="spotList">
       <div class="spot" v-for="spot in spots">
         <img class="spot-image" :src="spot.image" />
@@ -17,9 +18,7 @@
   </div>
 </template>
 <script>
-  import {
-    Search
-  } from 'vant';
+  import Search from '@/components/search.vue'
   export default {
     name: 'scenicSpotIntroduction',
     data() {
@@ -48,7 +47,9 @@
     },
     computed: {},
     watch: {},
-    components: {},
+    components: {
+      Search
+    },
     methods: {
       onSearch() {
         console.log(2222)
