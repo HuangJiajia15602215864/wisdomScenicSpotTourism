@@ -1,8 +1,6 @@
 <template>
   <div id="activityInformation" class="contain">
-    <form action="/">
-      <van-search placeholder="请输入关键词" v-model="value" @search="onSearch" @clear="onClear" />
-    </form>
+    <Search @search="search"></Search>
     <div class="activityInfoList">
       <div class="activity-info" v-for="activityInfo in activityInfoList">
         <div class="activity-info-detail">
@@ -17,14 +15,11 @@
   </div>
 </template>
 <script>
-  import {
-    Search
-  } from 'vant';
+  import Search from '@/components/search.vue'
   export default {
     name: 'activityInformation',
     data() {
       return {
-        value: '',
         activityInfoList: [{
             title: '水生植物馆',
             desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
@@ -45,17 +40,12 @@
     },
     computed: {},
     watch: {},
-    components: {},
+    components: {
+      Search
+    },
     methods: {
-      onSearch() {
-        console.log(2222)
-      },
-      focus() {
-
-      },
-      onClear() {
-        console.log(1111);
-        this.value = '';
+      search(searchWord) {
+        console.log(searchWord)
       }
     },
     created() {}
@@ -66,6 +56,10 @@
   .contain {
     width: 100%;
     height: 100%;
+  }
+
+  .activityInfoList {
+    margin-top: px2rem(100px);
   }
 
   .activity-info {

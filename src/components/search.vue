@@ -31,21 +31,18 @@
 
 <style lang="scss" scope>
     .search-out {
-        padding: px2rem(10px) px2rem(30px);
+        padding: px2rem(15px) px2rem(30px);
         background: #fff;
         width: 100%;
-        /* height: px2rem(112px); */
         box-shadow: 0px 0px px2rem(3px) px2rem(2px) rgba(0, 0, 0, 0.03);
-        display: flex;
         position: fixed;
-        top: px2rem(0px);
+        top: 0;
         left: 0;
         z-index: 100;
-        border:1px solid red;
 
         input[type=search] {
-            width: px2rem(596px);
-            height: px2rem(72px);
+            width: px2rem(640px);
+            height: px2rem(70px);
             border-radius: px2rem(8px);
             box-sizing: border-box;
             padding: px2rem(14px) px2rem(30px) px2rem(14px) px2rem(77px);
@@ -56,7 +53,6 @@
             font-size: px2rem(32px);
             line-height: px2rem(44px);
             color: rgba(51, 51, 51, 1);
-            border:1px solid green;
         }
 
         input[type=search]::-webkit-search-cancel-button {

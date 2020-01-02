@@ -1,9 +1,6 @@
 <template>
   <div id="scenicSpotIntroduction" class="contain">
-    <!-- <form action="/">
-      <van-search placeholder="请输入关键词" v-model="value" @search="onSearch" @clear="onClear" />
-    </form> -->
-    <Search></Search>
+    <Search @search="search"></Search>
     <div class="spotList">
       <div class="spot" v-for="spot in spots">
         <img class="spot-image" :src="spot.image" />
@@ -23,7 +20,6 @@
     name: 'scenicSpotIntroduction',
     data() {
       return {
-        value: '',
         spots: [{
             title: '水生植物馆',
             desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
@@ -51,15 +47,8 @@
       Search
     },
     methods: {
-      onSearch() {
-        console.log(2222)
-      },
-      focus() {
-
-      },
-      onClear() {
-        console.log(1111);
-        this.value = '';
+      search(searchWord) {
+        console.log(searchWord)
       }
     },
     created() {}
@@ -71,6 +60,10 @@
     background: #F8F8FA;
     width: 100%;
     height: 100%;
+  }
+
+  .spotList{
+    margin-top: px2rem(120px);
   }
 
   .spot {

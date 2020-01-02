@@ -365,15 +365,13 @@
     }
   }
 
-
-
   .pay-button {
     background-color: #3D11EE;
     color: #fff;
     font-size: px2rem(32px);
-    width: px2rem(600px);
+    width: 86%;
     border-radius: px2rem(10px);
-    margin: px2rem(20px) px2rem(50px) px2rem(120px) px2rem(50px);
+    margin: px2rem(20px) 7% px2rem(120px) 7%;
     padding: px2rem(25px) 0;
     text-align: center;
   }

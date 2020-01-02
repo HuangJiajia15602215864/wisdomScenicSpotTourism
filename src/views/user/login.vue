@@ -6,9 +6,9 @@
       <van-field v-model="password" clearable type="password" label="密码" placeholder="请输入密码" left-icon="lock" />
     </van-cell-group>
     <div class="login-box">
-    <span class="register">没有账号</span>
-    <span class="register">忘记密码</span>
-  </div>
+      <span class="register" @click="goRegister">没有账号</span>
+      <span class="register">忘记密码</span>
+    </div>
     <div class="login-button">登录</div>
   </div>
 </template>
@@ -34,6 +34,11 @@
 
     },
     methods: {
+      goRegister() {
+        this.$router.push({
+          path: '/register',
+        });
+      }
 
     },
     created() {
@@ -48,7 +53,7 @@
     font-size: px2rem(32px);
     line-height: px2rem(48px);
 
-    .van-field__left-icon .van-icon{
+    .van-field__left-icon .van-icon {
       font-size: px2rem(45px);
     }
 
@@ -81,29 +86,33 @@
 
     }
   }
-  .image{
+
+  .image {
     width: 100%;
     height: px2rem(380px);
     margin-bottom: px2rem(30px);
     /* background-image: url(""); */
-    border:1px solid red;
+    border: 1px solid red;
   }
-  .login-box{
+
+  .login-box {
     display: flex;
     justify-content: space-between;
     margin: px2rem(20px) px2rem(20px);
-    .register{
-    color: #888;
-    font-size: px2rem(28px);
+
+    .register {
+      color: #888;
+      font-size: px2rem(28px);
+    }
   }
-  }
-  .login-button{
+
+  .login-button {
     background-color: #3D11EE;
     color: #fff;
     font-size: px2rem(32px);
-    width: px2rem(600px);
+    width: 86%;
     border-radius: px2rem(10px);
-    margin: px2rem(120px) px2rem(50px);
+    margin: px2rem(120px) 7%;
     padding: px2rem(25px) 0;
     text-align: center;
   }

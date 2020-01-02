@@ -1,12 +1,17 @@
 <template>
-    <div id="userCenter">
+    <div class="userCenter">
         <div class="user-info">
             <div class="user-card">
-                <div class="user-type"></div>
-                <div class="user-type-desc">{{userType}}</div>
+                <div class="user-type" v-if="isLogin"></div>
+                <div class="user-type-desc" v-if="isLogin">{{userType}}</div>
                 <div class="user-portrait"></div>
-                <div class="user-name">{{name}}</div>
-                <div class="user-tel">{{tel}}</div>
+                <div class="user-name" v-if="isLogin">{{name}}</div>
+                <div class="user-tel" v-if="isLogin">{{tel}}</div>
+                <div class="user-login" v-if="!isLogin" @click="goLogin">尚未登录，请跳转登录
+                    <span class="icon-go">
+                        <span class="icon iconfont icon-xiangyou"></span>
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -59,8 +64,9 @@
         name: 'userCenter',
         data() {
             return {
-                userType:'尊贵会员',
-                name:'小游用户',
+                isLogin: false,
+                userType: '尊贵会员',
+                name: '小游用户',
                 activeNames: '',
                 ticketList: [{
                         id: '1',
@@ -179,6 +185,11 @@
                         }
                     });
                 }
+            },
+            goLogin() {
+                this.$router.push({
+                    path: '/login',
+                });
             }
         },
         created() {
@@ -195,30 +206,30 @@
 
         .user-card {
             background-color: #fff;
-            width: px2rem(640px);
+            width: 86%;
             height: px2rem(350px);
             position: absolute;
             top: px2rem(100px);
-            left: px2rem(30px);
+            left: 7%;
             border-radius: px2rem(10px);
             z-index: 100;
-            border-bottom:px2rem(15px) solid #3D11EE;
+            border-bottom: px2rem(15px) solid #3D11EE;
         }
 
-        .user-type{
-            width:0;
+        .user-type {
+            width: 0;
             height: 0;
-            border:px2rem(30px) solid #F5DA70 ;
-            border-right-width:px2rem(200px);
-            border-left-width:px2rem(20px);
+            border: px2rem(30px) solid #F5DA70;
+            border-right-width: px2rem(200px);
+            border-left-width: px2rem(20px);
             border-left-color: transparent;
             position: absolute;
             top: px2rem(70px);
             left: px2rem(435px);
         }
 
-        .user-type-desc{
-            background:linear-gradient(left, #F5DA70, #C78728) ;
+        .user-type-desc {
+            background: linear-gradient(left, #F5DA70, #C78728);
             width: px2rem(170px);
             padding: px2rem(14px) px2rem(0px) px2rem(14px) px2rem(24px);
             z-index: 1000;
@@ -240,16 +251,24 @@
             background-size: 100% 100%;
         }
 
-        .user-name{
+        .user-name {
             position: absolute;
             top: px2rem(210px);
             left: px2rem(170px);
         }
 
-        .user-tel {
+        .user-login {
             position: absolute;
-            top: px2rem(250px);
+            top: px2rem(230px);
             left: px2rem(170px);
+            font-size: px2rem(32px);
+        }
+
+        .icon-xiangyou {
+            font-size: px2rem(40px);
+            font-weight: 800;
+            color: #ff9900;
+            margin-left: px2rem(20px);
         }
     }
 
@@ -267,6 +286,7 @@
     }
 
     .active {
+
         .van-cell__title span,
         .van-cell__left-icon,
         .van-cell__right-icon {
@@ -275,11 +295,11 @@
     }
 
     .collapse-title {
-        padding: 0 px2rem(20px) px2rem(20px) px2rem(20px);
-        font-size: px2rem(36px);
+        padding-left: px2rem(20px);
+        font-size: px2rem(32px);
 
         .collapse-icon {
-            font-size: px2rem(40px);
+            font-size: px2rem(36px);
             margin-right: px2rem(30px);
         }
     }

@@ -1,8 +1,8 @@
 <template>
   <div id="scenicSpotTraffic" class="contain">
-    <van-tabs v-model="active" animated @click="onClick">
+    <van-tabs v-model="active" animated @click="onClick" :class="isWechat ? '' : 'top'">
       <van-tab title="景区客流">
-        <div class="chart-title">入园客流情况（每周）</div>
+        <div class="chart-title">{{isWechat}}入园客流情况（每周）</div>
         <div id="flowSituation" class="chart"></div>
         <div class="chart-title">入园客流趋势（每天）</div>
         <div id="flowTrend" class="chart"></div>
@@ -41,6 +41,7 @@
     name: 'scenicSpotTraffic',
     data() {
       return {
+        isWechat: this.$store.state.isWechat,
         active: 0,
         flowSituationCharts: '', //入园客流情况柱状图（每周）
         flowTrendCharts: '', // 入园客流趋势折线图（每天）
@@ -110,12 +111,17 @@
 
   .van-tabs--line .van-tabs__wrap{
     position: fixed;
-    top: px2rem(88px);
+    top: 0;
     width: 100%;
     left: 0;
     z-index: 100;
-    border-bottom:px2rem(1px) solid #3D11EE;
   }
+
+ .top{
+  .van-tabs__wrap {
+    margin-top: px2rem(88px);
+  }
+ }
 
   .van-tab__pane{
     margin-top: px2rem(100px);
@@ -161,4 +167,5 @@
   #humidityChange{
     margin-top: px2rem(-50px);
   }
+
 </style>

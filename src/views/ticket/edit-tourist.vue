@@ -81,7 +81,7 @@
   }
 
   .parking-time {
-    margin-left: px2rem(35px) !important;
+    margin-left: 12% !important;
     color: #323233 !important;
   }
 
@@ -89,9 +89,9 @@
     background-color: #3D11EE;
     color: #fff;
     font-size: px2rem(32px);
-    width: px2rem(640px);
+    width: 86%;
     border-radius: px2rem(10px);
-    margin: px2rem(120px) px2rem(30px);
+    margin: px2rem(120px) 7%;
     padding: px2rem(25px) 0;
     text-align: center;
   }
