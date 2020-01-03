@@ -14,15 +14,19 @@
         v-model="currentDate" :title="title" :type="type" :min-date="minDate" :max-date="maxDate" :max-hour="maxHour"
         :min-hour="minHour" />
     </van-popup>
-    <div class="appoint-button">确认预约</div>
+    <div class="appoint-button" @click="appoint">确认预约</div>
   </div>
 </template>
 <script>
   import {
     Field,
     DatetimePicker,
-    Popup
+    Popup,
+    Toast
   } from 'vant';
+  import {
+    isNoValue
+  } from '@/utils/verify'
   export default {
     name: 'stopAppointment',
     data() {
@@ -30,7 +34,7 @@
         carNum: '',
         parkingDate: '',
         parkingTime: '',
-        currentSelectDate:'',
+        currentSelectDate: '',
         showSelectPopup: false,
         title: "请选择停车日期",
         type: "date", //type:date/time
@@ -66,11 +70,11 @@
       // 确定选择
       confirmSelect() {
         this.showSelectPopup = false;
-         if (this.currentSelectDate.indexOf('-')>-1) {
-           this.parkingDate=this.currentSelectDate;
-         }else{
-           this.parkingTime=this.currentSelectDate;
-         }
+        if (this.currentSelectDate.indexOf('-') > -1) {
+          this.parkingDate = this.currentSelectDate;
+        } else {
+          this.parkingTime = this.currentSelectDate;
+        }
       },
       // 取消选择
       cancelSelect() {
@@ -78,16 +82,32 @@
       },
       // 获取选择数据
       getValues(value) {
-        if (value.children.length==3) { // 日期
-        var year=value.children[0].options[value.children[0].currentIndex];
-        var month=value.children[1].options[value.children[1].currentIndex];
-        var date=value.children[2].options[value.children[2].currentIndex];
-        this.currentSelectDate=year+'-'+month+'-'+date;
-       } else { // 时间
-        var hour = value.children[0].options[value.children[0].currentIndex];
-        var minute= value.children[1].options[value.children[1].currentIndex];
-        this.currentSelectDate=hour+':'+minute;
+        if (value.children.length == 3) { // 日期
+          var year = value.children[0].options[value.children[0].currentIndex];
+          var month = value.children[1].options[value.children[1].currentIndex];
+          var date = value.children[2].options[value.children[2].currentIndex];
+          this.currentSelectDate = year + '-' + month + '-' + date;
+        } else { // 时间
+          var hour = value.children[0].options[value.children[0].currentIndex];
+          var minute = value.children[1].options[value.children[1].currentIndex];
+          this.currentSelectDate = hour + ':' + minute;
         }
+      },
+      // 点击确认预约按钮
+      appoint() {
+        if (isNoValue(this.carNum)) {
+          Toast('车牌号不能为空')
+          return
+        }
+        if (isNoValue(this.parkingDate)) {
+          Toast('停车日期不能为空')
+          return
+        }
+        if (isNoValue(this.parkingTime)) {
+          Toast('停车时间不能为空')
+          return
+        }
+        Toast.success('预约成功');
       }
 
     },
@@ -120,7 +140,7 @@
     color: #969799;
   }
 
-  .appoint-button{
+  .appoint-button {
     background-color: #3D11EE;
     color: #fff;
     font-size: px2rem(32px);

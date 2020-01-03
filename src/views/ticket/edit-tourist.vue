@@ -22,7 +22,11 @@
     Picker,
     Cell,
     CellGroup,
+    Toast
   } from 'vant';
+  import {
+    isNoValue,isName,isCardID
+  } from '@/utils/verify'
   export default {
     name: 'editTourist',
     data() {
@@ -63,6 +67,26 @@
       },
       // 点击确定按钮，完成编辑
       editTourist() {
+        if (isNoValue(this.ticketTypeDesc)) {
+          Toast('游客类型不能为空')
+          return
+        }
+        if (isNoValue(this.tourist.name)) {
+          Toast('姓名不能为空')
+          return
+        }
+        if (isNoValue(this.tourist.idCard)) {
+          Toast('证件号码不能为空')
+          return
+        }
+        if (!isName(this.tourist.name)) {
+          Toast('姓名格式有误')
+          return
+        }
+        if (!isCardID(this.tourist.idCard)) {
+          Toast('证件号码格式有误')
+          return
+        }
         console.log(this.tourist);
         this.$router.push({
           path: '/ticketReservation',

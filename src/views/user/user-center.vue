@@ -6,7 +6,7 @@
                 <div class="user-type-desc" v-if="isLogin">{{userType}}</div>
                 <div class="user-portrait"></div>
                 <div class="user-name" v-if="isLogin">{{name}}</div>
-                <div class="user-tel" v-if="isLogin">{{tel}}</div>
+                <div class="user-tel" v-if="isLogin">{{telShow}}</div>
                 <div class="user-login" v-if="!isLogin" @click="goLogin">尚未登录，请跳转登录
                     <span class="icon-go">
                         <span class="icon iconfont icon-xiangyou"></span>
@@ -64,7 +64,7 @@
         name: 'userCenter',
         data() {
             return {
-                isLogin: false,
+                isLogin: true,
                 userType: '尊贵会员',
                 name: '小游用户',
                 activeNames: '',
@@ -154,7 +154,7 @@
         },
         filters: {},
         computed: {
-            tel() {
+            telShow() {
                 var tel = '15602215864';
                 return tel.substr(0, 3) + "****" + tel.substr(7);
             }
@@ -260,6 +260,13 @@
         .user-login {
             position: absolute;
             top: px2rem(230px);
+            left: px2rem(170px);
+            font-size: px2rem(32px);
+        }
+
+        .user-tel {
+            position: absolute;
+            top: px2rem(260px);
             left: px2rem(170px);
             font-size: px2rem(32px);
         }
