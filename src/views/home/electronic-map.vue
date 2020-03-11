@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div>this is a vue file called ulTransition.vue;</div>
