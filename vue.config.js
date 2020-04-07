@@ -1,4 +1,7 @@
 module.exports = {
+    // 打包生成的 index.html 文件里面引用资源的前缀
+    // 也为发布到线上资源的 URL 前缀
+    // 使用的是相对路径，默认为 ''
     publicPath: process.env.NODE_ENV === 'production'
         ? '/WisdomScenicSpotTourism/'
         : '/',
@@ -6,17 +9,18 @@ module.exports = {
     outputDir: 'WisdomScenicSpotTourism',
     pages: {
         apply: {
-            // page 的入口
+            // page 的入口（单入口）
             entry: 'src/main.js',
             // 模板来源
             template: 'public/index.html',
-            // 在 dist/apply.html 的输出
+            // 在 dist/apply.html 的输出  包名称
             filename: 'apply.html',
             // 当使用 title 选项时，
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
             title: '导游导览系统',
             // 在这个页面中包含的块，默认情况下会包含
             // 提取出来的通用 chunk 和 vendor chunk。
+            // 块名，公共块名(非入口)
             chunks: ['chunk-vendors', 'chunk-common', 'apply']
         }
     },

@@ -7,7 +7,7 @@
     </van-cell-group>
     <div class="login-box">
       <span class="register" @click="goRegister">没有账号</span>
-      <span class="register">忘记密码</span>
+      <!-- <span class="register">忘记密码</span> -->
     </div>
     <div class="login-button" @click="login">登录</div>
   </div>
@@ -118,8 +118,8 @@
     width: 100%;
     height: px2rem(380px);
     margin-bottom: px2rem(30px);
-    /* background-image: url(""); */
-    border: 1px solid red;
+    background-size: 100%;
+    background: url("http://img4.imgtn.bdimg.com/it/u=1096318764,1694813758&fm=26&gp=0.jpg") no-repeat fixed top; 
   }
 
   .login-box {

@@ -6,7 +6,7 @@ import '@/assets/scss/reset.scss';
 import '@/assets/iconfont/iconfont.css' // 引入字体样式
 import '@/assets/iconfont/iconfont.js'  // 引入symbol样式
 import { NavBar, Tabbar, TabbarItem,Icon,Swipe, SwipeItem,Grid, GridItem,Lazyload,Field,Cell,CellGroup,Collapse, CollapseItem ,Card,Tag,Search,
-  Tab, Tabs,DatetimePicker,Popup,Picker,Dialog,Toast   } from 'vant';
+  Tab, Tabs,DatetimePicker,Popup,Picker,Dialog,Toast,Button,RadioGroup, Radio    } from 'vant';
 
 Vue.config.productionTip = false
 Vue.use(NavBar);
@@ -28,6 +28,9 @@ Vue.use(Popup);
 Vue.use(Picker);
 Vue.use(Dialog);
 Vue.use(Toast);
+Vue.use(Button);
+Vue.use(Radio);
+Vue.use(RadioGroup);
 
 new Vue({
   router,

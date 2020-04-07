@@ -2,6 +2,7 @@
   <div id="scenicSpotTraffic" class="contain">
     <van-tabs v-model="active" animated @click="onClick" :class="isWechat ? '' : 'top'">
       <van-tab title="景区客流">
+<<<<<<< HEAD
         <div class="chart-title">入园客流情况（每周）</div>
         <div id="flowSituation" class="chart"></div>
         <div class="chart-title">入园客流趋势（每天）</div>
@@ -10,22 +11,38 @@
         <div id="ticketSales" class="chart"></div>
         <div class="chart-title">各景点客流变化（每天）</div>
         <div id="flowChange" class="chart"></div>
+=======
+        <div class="box">
+          <div class="chart-title">入园客流情况（每周）</div>
+          <div id="flowSituation" class="chart"></div>
+          <div class="chart-title">入园客流趋势（每天）</div>
+          <div id="flowTrend" class="chart"></div>
+          <div class="chart-title">各景点售票情况</div>
+          <div id="ticketSales" class="chart"></div>
+          <div class="chart-title">各景点客流变化（每天）</div>
+          <div id="flowChange" class="chart"></div>
+        </div>
+>>>>>>> 9cbdea3b2d771dd1dd3a1c16b8efa1488a13f7b4
       </van-tab>
 
       <van-tab title="景区天气">
-        <div class="chart-title">温度走势</div>
-        <div id="temperatureChange" class="chart"></div>
-        <div class="chart-title">湿度走势</div>
-        <div id="humidityChange" class="chart"></div>
-        <div class="chart-title">空气质量走势</div>
-        <div id="airQualityChange" class="chart"></div>
+        <div class="box">
+          <div class="chart-title">温度走势</div>
+          <div id="temperatureChange" class="chart"></div>
+          <div class="chart-title">湿度走势</div>
+          <div id="humidityChange" class="chart"></div>
+          <div class="chart-title">空气质量走势</div>
+          <div id="airQualityChange" class="chart"></div>
+        </div>
       </van-tab>
 
       <van-tab title="景区车流">
-        <div class="chart-title">车流拥挤程度</div>
-        <div id="TrafficCongestion" class="chart"></div>
-        <div class="chart-title">停车场空余位置</div>
-        <div id="parkingSpace" class="chart"></div>
+        <div class="box">
+          <div class="chart-title">车流拥挤程度</div>
+          <div id="TrafficCongestion" class="chart"></div>
+          <div class="chart-title">停车场空余位置</div>
+          <div id="parkingSpace" class="chart"></div>
+        </div>
       </van-tab>
     </van-tabs>
   </div>
@@ -106,11 +123,11 @@
   .contain {
     width: 100%;
     height: 100%;
-    z-index:0;
+    z-index: 0;
     background-color: #fff;
   }
 
-  .van-tabs--line .van-tabs__wrap{
+  .van-tabs--line .van-tabs__wrap {
     position: fixed;
     top: 0;
     width: 100%;
@@ -118,14 +135,16 @@
     z-index: 100;
   }
 
- .top{
-  .van-tabs__wrap {
-    margin-top: px2rem(88px);
+  .top {
+    .van-tabs__wrap {
+      margin-top: px2rem(88px);
+    }
   }
- }
 
-  .van-tab__pane{
+  .van-tab__pane {}
 
+  .box{
+    margin-top: px2rem(88px);
   }
 
   .chart-title {
@@ -165,8 +184,7 @@
     margin-top: px2rem(-50px);
   }
 
-  #humidityChange{
+  #humidityChange {
     margin-top: px2rem(-50px);
   }
-
 </style>
