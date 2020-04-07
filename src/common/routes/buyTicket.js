@@ -23,6 +23,6 @@ const buyTicket = [
       title: '编辑游客' //  网页title
     }
   }
-]
 
+]
 export default buyTicket

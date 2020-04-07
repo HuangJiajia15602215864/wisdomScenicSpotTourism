@@ -2,7 +2,7 @@
   <div id="scenicSpotTraffic" class="contain">
     <van-tabs v-model="active" animated @click="onClick" :class="isWechat ? '' : 'top'">
       <van-tab title="景区客流">
-        <div class="chart-title">{{isWechat}}入园客流情况（每周）</div>
+        <div class="chart-title">入园客流情况（每周）</div>
         <div id="flowSituation" class="chart"></div>
         <div class="chart-title">入园客流趋势（每天）</div>
         <div id="flowTrend" class="chart"></div>
