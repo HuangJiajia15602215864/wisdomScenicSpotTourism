@@ -2,14 +2,17 @@
   <div id="register">
     <div class="image"></div>
     <van-cell-group>
-      <van-field v-model="userInfo.tel" clearable label="手机号" placeholder="请输入手机号码" type="tel" left-icon="user-circle-o" />
-      <van-field v-model="userInfo.password" clearable type="password" label="密码" placeholder="请输入密码" left-icon="lock" />
-      <van-field v-model="userInfo.surePassword" clearable type="password" label="确认密码" placeholder="请确认密码" left-icon="lock" />
+      <van-field v-model="userInfo.tel" clearable label="手机号" placeholder="请输入手机号码" type="tel"
+        left-icon="user-circle-o" />
+      <van-field v-model="userInfo.password" clearable type="password" label="密码" placeholder="请输入密码"
+        left-icon="lock" />
+      <van-field v-model="userInfo.surePassword" clearable type="password" label="确认密码" placeholder="请确认密码"
+        left-icon="lock" />
     </van-cell-group>
     <div class="login-box">
       <span class="register" @click="goLogin">已有账号</span>
     </div>
-    <div class="login-button" @click="register">注册</div>
+    <div class="login-button" @click="goRegister">注册</div>
   </div>
 </template>
 <script>
@@ -20,16 +23,21 @@
     Toast
   } from 'vant';
   import {
-    isNoValue,isPhone,isPwdOrAccount
+    isNoValue,
+    isPhone,
+    isPwdOrAccount
   } from '@/utils/verify'
+  import {
+    register
+  } from '@/utils/apply.url';
   export default {
     name: 'register',
     data() {
       return {
-        userInfo:{
-        tel: '',
-        password: '',
-        surePassword: '',
+        userInfo: {
+          tel: '',
+          password: '',
+          surePassword: '',
         }
       };
     },
@@ -48,7 +56,7 @@
         });
       },
       // 点击注册账号按钮
-      register(){
+      goRegister() {
         if (isNoValue(this.userInfo.tel)) {
           Toast('手机号码不能为空')
           return
@@ -66,23 +74,36 @@
           return
         }
         if (!isPwdOrAccount(this.userInfo.password)) {
-          Toast('密码格式有误'+'\n'+'正确格式:8~32位数字+英文')
+          Toast('密码格式有误' + '\n' + '正确格式:8~32位数字+英文')
           return
         }
         if (!isPwdOrAccount(this.userInfo.surePassword)) {
-          Toast('确认密码格式有误'+'\n'+'正确格式:8~32位数字+英文')
+          Toast('确认密码格式有误' + '\n' + '正确格式:8~32位数字+英文')
           return
         }
-        if(this.userInfo.surePassword !=this.userInfo.password){
+        if (this.userInfo.surePassword != this.userInfo.password) {
           Toast('两次输入的密码不一致')
-          return          
+          return
         }
-        this.$router.push({
-          path: '/userCenter',
+        var params = {
+          tel: this.userInfo.tel,
+          password: this.userInfo.password
+        }
+        console.log(params)
+        register(params, 'post').then(res => {
+          if (res.code == '200') {
+            Toast(res.msg);
+            this.$router.push({
+              path: '/userCenter',
+            });
+          } else {
+            Toast(res.msg);
+          }
+        }).catch(err => {
+          Toast(res.msg);
         });
+
       }
-
-
     },
     created() {
 
@@ -134,7 +155,7 @@
     width: 100%;
     height: px2rem(380px);
     margin-bottom: px2rem(30px);
-    background: url("http://img4.imgtn.bdimg.com/it/u=1096318764,1694813758&fm=26&gp=0.jpg") no-repeat fixed top; 
+    background: url("http://img4.imgtn.bdimg.com/it/u=1096318764,1694813758&fm=26&gp=0.jpg") no-repeat fixed top;
   }
 
   .login-box {
