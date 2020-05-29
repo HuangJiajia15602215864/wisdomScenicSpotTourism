@@ -9,7 +9,6 @@
     </van-cell-group>
     <div class="login-box">
       <span class="register" @click="goRegister">没有账号</span>
-      <!-- <span class="register">忘记密码</span> -->
     </div>
     <div class="login-button" @click="goLogin">登录</div>
   </div>
@@ -36,15 +35,9 @@
         userInfo: {
           tel: '',
           password: '',
+          redirectUrl: '',
         }
       };
-    },
-    computed: {
-
-    },
-    watch: {},
-    components: {
-
     },
     methods: {
       // 点击没有账号
@@ -77,18 +70,24 @@
         }
         login(params, 'post').then(res => {
           if (res.code == '200') {
+            sessionStorage.setItem('userTel', this.userInfo.tel);
             Toast(res.msg);
-            this.$router.push({
-              path: '/userCenter',
-            });
-          }else if(res.code == '400'){
+            console.log(this.$route.query.redirect)
+            if (this.$route.query.redirect) {
+              let redirect = this.$route.query.redirect;
+              this.$router.push(redirect);
+            } else {
+              this.$router.push({
+                path: '/userCenter',
+              });
+            }          
+          } else if (res.code == '400') {
             Toast(res.msg);
-          }
-          else{
+          } else {
             Toast('该账户未注册，请前往注册');
           }
         }).catch(err => {
-          Toast('登录失败'||res.msg);
+          Toast('登录失败' || res.msg);
         });
       }
 

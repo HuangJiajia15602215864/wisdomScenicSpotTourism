@@ -16,15 +16,15 @@
             <van-button type="info" size="small" style="float: right;margin-right: 10px;" @click="sureNavigation">导航
             </van-button>
         </van-cell-group>
-        <baidu-map :zoom="zoom" :scroll-wheel-zoom="true"  :center="{lng: 113.3737850000, lat: 23.1878410000}" ak="0o9pEEqKvk43AIHVDmrvtAWKAMmBpFdH">
+        <baidu-map :zoom="zoom" :scroll-wheel-zoom="true" @ready="handler" ak="0o9pEEqKvk43AIHVDmrvtAWKAMmBpFdH">
             <bm-view class="bm-view"></bm-view>
             <bm-control class="search">
-                <bm-auto-complete v-model="keyword" :sugStyle="{zIndex: 1}">
+                <bm-auto-complete v-model="keyword" :sugStyle="{zIndex: 1}" @confirm="confirm">
                     <input class="input" placeholder="请输入地名关键字" />
                 </bm-auto-complete>
             </bm-control>
-            <bm-local-search :keyword="keyword" :auto-viewport="true"></bm-local-search>
-            <bm-map-type class="map-type" :map-types="['BMAP_NORMAL_MAP','BMAP_PERSPECTIVE_MAP','BMAP_HYBRID_MAP']"
+            <bm-local-search :keyword="keyword" :auto-viewport="true" v-if="search"></bm-local-search>
+            <bm-map-type class="map-type" :map-types="['BMAP_NORMAL_MAP','BMAP_HYBRID_MAP']"
                 anchor="BMAP_ANCHOR_BOTTOM_LEFT"></bm-map-type>
             <bm-navigation anchor="BMAP_ANCHOR_BOTTOM_RIGHT"></bm-navigation>
             <bm-geolocation anchor="BMAP_ANCHOR_TOP_RIGHT" :showAddressBar="true" :autoLocation="true"></bm-geolocation>
@@ -57,10 +57,11 @@
         data() {
             return {
                 navigation: true, //是否导航
+                search:true,// 是否显示搜索结果
                 keyword: '', // 地名关键字
                 beginPoint: '', // 起点
                 endPoint: '', // 终点
-                zoom: 3,
+                zoom: 20,
                 goType: 0, // 出行方式（1：步行、2：汽车、3：公交）
                 walking: {
                     start: '',
@@ -93,14 +94,38 @@
             BmLocalSearch
         },
         methods: {
+            // 地图自动定位
+            handler({
+                BMap,
+                map
+            }) {
+                var geolocation = new BMap.Geolocation();
+                geolocation.getCurrentPosition(function (r) {
+                    if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+                        var mk = new BMap.Marker(r.point);
+                        map.addOverlay(mk);
+                        map.panTo(r.point);
+                        var mk = new BMap.Marker(r.point);
+                        map.addOverlay(mk);
+                        map.panTo(r.point);
+                    } else {
+                        alert('failed' + this.getStatus());
+                    }
+                })
+            },
             // 点击左上角导航按钮
             goNavigation() {
                 this.navigation = false;
             },
+            // 选中搜索
+            confirm(){
+                this.search = true;
+                this.goType = 0;
+            },
             // 点击确认导航按钮
             sureNavigation() {
                 this.navigation = true;
-                console.log(this.goType)
+                this.search = false;
                 switch (this.goType) {
                     case '1':
                         this.walking.start = this.beginPoint;

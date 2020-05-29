@@ -44,11 +44,11 @@
           <div class="tourist-detail">
             <div>
               <span class="tourist-name">{{tourist.name}}</span>
-              <span class="tourist-tag" v-if="tourist.ticketType==0">普通票</span>
+              <!-- <span class="tourist-tag" v-if="tourist.ticketType==0">普通票</span>
               <span class="tourist-tag" v-if="tourist.ticketType==1">儿童票</span>
               <span class="tourist-tag" v-if="tourist.ticketType==2">学生票</span>
               <span class="tourist-tag" v-if="tourist.ticketType==3">老人票</span>
-              <span class="tourist-tag" v-if="tourist.ticketType==4">残疾票</span>
+              <span class="tourist-tag" v-if="tourist.ticketType==4">残疾票</span> -->
             </div>
             <div class="tourist-idCard">{{tourist.idCard| idCardFilter}}</div>
           </div>
@@ -62,9 +62,18 @@
     </div>
 
     <div class="pay-button" @click="pay">￥{{ticketPay}}/确认支付</div>
+
     <van-popup v-model="showSelectPopup" position="bottom">
       <van-datetime-picker class="datetime-picker" @confirm="confirmSelect" @cancel="cancelSelect" @change="getValues"
         v-model="currentDate" :title="title" :type="type" :min-date="minDate" :max-date="maxDate" />
+    </van-popup>
+
+    <van-popup v-model="isEdit">
+      <van-cell-group>
+        <van-field class="cellEdit" v-model="name" clearable label="姓名" placeholder="请输入姓名" />
+        <van-field class="cellEdit" v-model="idCard" clearable label="证件号码" placeholder="请输入证件号码" />
+      </van-cell-group>
+      <div class="confirm-button" @click="editTourists">确定</div>
     </van-popup>
   </div>
 </template>
@@ -75,10 +84,18 @@
     DatetimePicker,
     Popup,
     Dialog,
-    Toast
+    Toast,
+    CellGroup,
+    Field
   } from 'vant';
   import {
-    isNoValue
+    buy,
+    tickets
+  } from '@/utils/apply.url';
+  import {
+    isNoValue,
+    isName,
+    isCardID
   } from '@/utils/verify'
   export default {
     name: 'ticketReservation',
@@ -89,55 +106,22 @@
         showSelectPopup: false,
         title: "请选择游玩日期",
         type: "date",
+        userTel: '',
         minDate: new Date(),
         currentDate: new Date(),
         ticketInfo: { // 购票信息
-          ticketType: '',
-          selectTicketType: '',
+          ticketId: '',
           selectPlayDate: '',
           touristsNumber: '',
-          ticketPay: ''
+          ticketPay: '',
+          uTel:'',
+          selectTicketType:''
         },
-        ticketList: [{
-            id: '1',
-            title: '入园票',
-            price: '100',
-            desc: '开放时间可入园游玩！'
-          },
-          {
-            id: '2',
-            title: '入园票+海洋馆+游乐场',
-            price: '200',
-            desc: '开放时间可入园游玩，畅游海洋馆和游乐场！'
-          },
-          {
-            id: '3',
-            title: 'VIP票',
-            price: '500',
-            desc: '一票在手，全园畅游！'
-          }
-        ],
-        touristList: [{
-            name: '黄佳佳',
-            ticketType: '0',
-            idCard: '445221199811184561'
-          },
-          {
-            name: '黄佳佳',
-            ticketType: '1',
-            idCard: '445221199811184562'
-          },
-          {
-            name: '黄佳佳',
-            ticketType: '2',
-            idCard: '445221199811184563'
-          },
-          {
-            name: '黄佳佳',
-            ticketType: '3',
-            idCard: '445221199811184564'
-          },
-        ],
+        name:'',
+        idCard: '',
+        isEdit: false,
+        ticketList: [],
+        touristList: [],
       };
     },
     filters: {
@@ -147,10 +131,10 @@
     },
     computed: {
       ticketPay() {
-        var sum = 0;// 总价
-        var unitPrice=0; // 单价
+        var sum = 0; // 总价
+        var unitPrice = 0; // 单价
         for (var i = 0; i < this.ticketList.length; i++) {
-          if (this.ticketInfo.selectTicketType ==this.ticketList[i].title) {
+          if (this.ticketInfo.selectTicketType == this.ticketList[i].title) {
             unitPrice = this.ticketList[i].price;
             break;
           }
@@ -173,24 +157,48 @@
       }
     },
     mounted() {
-      if (this.$route.query.tourist != undefined) {
-        this.touristList.push(this.$route.query.tourist);
-        console.log(this.touristList)
-        this.ticketInfo.ticketType = sessionStorage.getItem("ticketType");
-        this.ticketInfo.selectTicketType = sessionStorage.getItem("selectTicketType");
-        this.ticketInfo.selectPlayDate = sessionStorage.getItem("selectPlayDate");
-      } else {
-        console.log('主页跳进来')
-      }
+      this.userTel = sessionStorage.getItem('userTel');
+      // if (this.$route.query.tourist != undefined) {
+      //   console.log(this.$route.query.tourist)
+      //   this.touristList.push(this.$route.query.tourist);
+      //   console.log(this.touristList)
+      //   this.ticketInfo.ticketType = sessionStorage.getItem("ticketType");
+      //   this.ticketInfo.selectTicketType = sessionStorage.getItem("selectTicketType");
+      //   this.ticketInfo.selectPlayDate = sessionStorage.getItem("selectPlayDate");
+      // } else {
+      //   console.log('主页跳进来')
+      // }
+      this.getTicketData();
     },
     methods: {
+      // 获取电子门票数据
+      getTicketData() {
+        this.ticketList = [];
+        tickets({}, 'get').then(res => {
+          if (res.length != 0) {
+            var obj = {};
+            for (let i = 0; i < res.length; i++) {
+              obj = {
+                id: res[i].id,
+                title: res[i].title,
+                desc: res[i].descs,
+                price: res[i].price
+              };
+              this.ticketList.push(obj)
+            }
+          } else {
+            this.$message.success(res.msg);
+          }
+        }).catch(err => {
+          console.log(22)
+          this.$message.success('获取失败' || res.msg);
+        });
+      },
       // 选择购票类型
       select(item) {
-        this.ticketInfo.ticketType = item.id;
+        this.ticketInfo.ticketId = item.id;
         this.ticketInfo.selectTicketType = item.title;
         this.ticketType = '';
-        sessionStorage.setItem("ticketType", this.ticketInfo.ticketType);
-        sessionStorage.setItem("selectTicketType", this.ticketInfo.selectTicketType);
       },
       // 弹出选择器
       showPopup() {
@@ -205,9 +213,13 @@
       },
       // 确定选择(日期)
       confirmSelect() {
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1 < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1;
+        var day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate();
+        var today = year + "-" + month + "-" + day;
         this.showSelectPopup = false;
-        this.ticketInfo.selectPlayDate = this.currentPlayDate;
-        sessionStorage.setItem("selectPlayDate", this.ticketInfo.selectPlayDate);
+        this.ticketInfo.selectPlayDate = this.currentPlayDate == '' ? today : this.currentPlayDate;
       },
       // 取消选择
       cancelSelect() {
@@ -215,12 +227,13 @@
       },
       // 添加游客
       addTourist() {
-        this.$router.push({
-          path: '/ticketReservation/editTourist'
-        });
+        this.isEdit=true;
+        this.name='';
+        this.idCard='';
       },
       // 编辑游客
       editTourist(tourist) {
+        this.isEdit=true;
         console.log('编辑')
         this.touristList.forEach((item, index) => {
           if (item.idCard == tourist.idCard) {
@@ -229,12 +242,6 @@
           }
         });
         console.log(this.touristList)
-        this.$router.push({
-          path: '/ticketReservation/editTourist',
-          query: {
-            tourist: tourist
-          }
-        });
       },
       // 删除游客
       deleteTourist(tourist) {
@@ -268,13 +275,59 @@
           return
         }
         console.log(this.ticketInfo)
+        var params = {
+          selectPlayDate: this.ticketInfo.selectPlayDate,
+          number: Number(this.ticketInfo.touristsNumber),
+          ticketPay: this.ticketPay,
+          uTel: this.userTel,
+          ticketId:this.ticketInfo.ticketId
+        }
+        console.log(params)
+        buy(params, 'post').then(res => {
+          if (res.code == '200') { // 购票成功
+            Toast('购票成功，可前往个人中心查看购票信息');
+          } else { // 该车对应时间段已购票
+            Toast('您已预约对应时间段');
+          }
+        }).catch(err => {
+          Toast('登录失败' || res.msg);
+        });
         Toast.success('支付成功');
+      },
+      // 点击确定按钮，完成编辑
+      editTourists() {
+        var tourist={
+          name:this.name,
+          idCard:this.idCard,
+          ticketType:0
+        };
+        if (isNoValue(tourist.name)) {
+          Toast('姓名不能为空')
+          return
+        }
+        if (isNoValue(tourist.idCard)) {
+          Toast('证件号码不能为空')
+          return
+        }
+        if (!isName(tourist.name)) {
+          Toast('姓名格式有误')
+          return
+        }
+        if (!isCardID(tourist.idCard)) {
+          Toast('证件号码格式有误')
+          return
+        }
+        console.log(tourist);
+        this.touristList.push(tourist)
+        console.log(this.touristList)
+        this.isEdit=false;
       }
     },
   };
 </script>
 
 <style lang="scss" scoped>
+  /* 电子门票类型 */
   .ticket-line {
     width: 100%;
     padding: px2rem(20px);
@@ -315,7 +368,6 @@
       margin-left: px2rem(20px);
     }
   }
-
 
   .ticket-detail {
     border-bottom: px2rem(1px) solid #ddd;
@@ -416,5 +468,29 @@
     margin: px2rem(20px) 7% px2rem(120px) 7%;
     padding: px2rem(25px) 0;
     text-align: center;
+  }
+
+  .parking-time {
+    margin-left: 12% !important;
+    color: #323233 !important;
+  }
+
+  .confirm-button {
+    background-color: #3D11EE;
+    color: #fff;
+    font-size: px2rem(32px);
+    width: 86%;
+    border-radius: px2rem(10px);
+    margin: px2rem(120px) 7%;
+    padding: px2rem(15px) 0;
+    text-align: center;
+  }
+  .cellEdit{
+    padding: px2rem(10px);
+    margin-top:px2rem(20px) ;
+  }
+
+  .van-popup--center{
+    width: px2rem(550px);
   }
 </style>

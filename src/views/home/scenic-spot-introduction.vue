@@ -15,30 +15,18 @@
   </div>
 </template>
 <script>
+  import {
+    Toast
+  } from 'vant';
   import Search from '@/components/search.vue'
+  import {
+    spots,findSpot
+  } from '@/utils/apply.url';
   export default {
     name: 'scenicSpotIntroduction',
     data() {
       return {
-        spots: [{
-            title: '水生植物馆',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            time: '每年4月~7月',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271721217&di=cd9ee3124e5880734682f6fde760271f&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F140915%2F330508-14091520514636.jpg'
-          },
-          {
-            title: '海洋馆',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            time: '每年6月~9月',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271750036&di=8d14f3395815f8e5505ea67e6fa31bc3&imgtype=0&src=http%3A%2F%2Fdpic.tiankong.com%2F6t%2F9h%2FQJ9106150115.jpg%3Fx-oss-process%3Dstyle%2Fshows'
-          },
-          {
-            title: '星空印象园',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            time: '全年',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271639513&di=9baee638b3cb067410adc618e3daa386&imgtype=0&src=http%3A%2F%2Ffile06.16sucai.com%2F2016%2F0621%2Ff53a66fda171a74be8e8c5b7e593321c.jpg'
-          }
-        ],
+        spots: [],
       };
     },
     computed: {},
@@ -46,9 +34,51 @@
     components: {
       Search
     },
+    mounted() {
+      console.log(242354242)
+      this.spots=[];
+      spots({}, 'get').then(res => {
+        console.log(11)
+        if (res.length != 0) {
+          var obj = {};
+          for (let i = 0; i < res.length; i++) {
+            obj = {
+              title: res[i].title,
+              time: this.timestampToTime(res[i].startDate) + '~' + this.timestampToTime(res[i].endDate),
+              desc: res[i].descs,
+              image: res[i].image
+            };
+            this.spots.push(obj)
+          }
+          console.log(this.spots)
+        } else {
+          Toast(res.msg);
+        }
+      }).catch(err => {
+        console.log(22)
+        Toast('获取失败' || res.msg);
+      });
+    },
     methods: {
+      timestampToTime(timestamp) {
+        var date = new Date(timestamp);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = date.getDate() + ' ';
+        return Y + M + D ;
+      },
       search(searchWord) {
+        console.log('清空数据')
+        this.spots=[];
         console.log(searchWord)
+        const params = {
+          searchWord: searchWord
+        }
+        findSpot(params, 'get').then(res => {
+            this.spots = res;
+        }).catch(err => {
+          Toast('获取失败' || res.msg);
+        });
       }
     },
     created() {}
@@ -62,7 +92,7 @@
     height: 100%;
   }
 
-  .spotList{
+  .spotList {
     margin-top: px2rem(120px);
   }
 

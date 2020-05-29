@@ -1,28 +1,22 @@
 <template>
   <div class="electronic-navigation">
-    <baidu-map :zoom="zoom" :scroll-wheel-zoom="true" ak="0o9pEEqKvk43AIHVDmrvtAWKAMmBpFdH"
-      :center="{lng: 113.3737850000, lat: 23.1878410000}">
+    <baidu-map :zoom="zoom" :scroll-wheel-zoom="true" ak="0o9pEEqKvk43AIHVDmrvtAWKAMmBpFdH" @ready="handler">
       <bm-view class="bm-view"></bm-view>
-      <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_PERSPECTIVE_MAP','BMAP_HYBRID_MAP']"
-        anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
-      <bm-marker :position="{lng:  113.3737850000, lat: 23.1878410000}" :dragging="true"
-        animation="BMAP_ANIMATION_BOUNCE">
-        <bm-label content="您在BICC CENTER" :labelStyle="{color: 'blue', fontSize : '14px'}"
-          :offset="{width: -35, height: 30}" />
-      </bm-marker>
+      <bm-map-type :map-types="['BMAP_NORMAL_MAP', 'BMAP_HYBRID_MAP']" anchor="BMAP_ANCHOR_TOP_LEFT"></bm-map-type>
     </baidu-map>
-    <div class="intro-title">当前位置：BICC CENTER</div>
+    <div class="intro-title">当前位置：{{address}}</div>
     <div class="intro-title">音频介绍：</div>
     <audio controls class="intro-audio">
-      <source src="horse.mp3" type="audio/mpeg">
-      <source src="horse.ogg" type="audio/ogg">
-      <embed height="50" width="100" src="horse.mp3">
+      <source src="http://img.tukuppt.com/newpreview_music/09/00/19/5c890964aede516882.mp3" type="audio/mpeg">
+      <source src="http://img.tukuppt.com/newpreview_music/09/00/19/5c890964aede516882.mp3" type="audio/ogg">
+      <embed height="50" width="100" src="http://img.tukuppt.com/newpreview_music/09/00/19/5c890964aede516882.mp3">
     </audio>
     <div class="intro-title">客流量：</div>
     <div id="flowTrend" class="chart"></div>
   </div>
 </template>
 <script>
+  var _this={};
   import BaiduMap from 'vue-baidu-map/components/map/Map.vue'
   import {
     BmView,
@@ -37,6 +31,7 @@
       return {
         zoom: 18,
         flowTrendCharts: '', // 客流趋势折线图（每天）
+        address:''
       }
     },
     components: {
@@ -46,6 +41,9 @@
       BmMarker,
       BmLabel
     },
+    beforeCreate(){
+        _this = this;
+      },
     mounted() {
       // 绘制图表
       this.$nextTick(function () {
@@ -53,6 +51,30 @@
       })
     },
     methods: {
+      // 地图自动定位
+      handler({
+        BMap,
+        map
+      }) {
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function (r) {
+          if (this.getStatus() == BMAP_STATUS_SUCCESS) {
+            var mk = new BMap.Marker(r.point);
+            map.addOverlay(mk);
+            map.panTo(r.point);
+            var mk = new BMap.Marker(r.point);
+            map.addOverlay(mk);
+            map.panTo(r.point);
+            var point = new BMap.Point(r.point.lng, r.point.lat);
+            var gc = new BMap.Geocoder();
+            gc.getLocation(point, function (rs) {
+              _this.address = rs.address;
+            })
+          } else {
+            alert('failed' + this.getStatus());
+          }
+        })
+      },
       // 绘制图表公共函数
       drawCharts(id, chart, option) {
         this.chart = echarts.init(document.getElementById(id));

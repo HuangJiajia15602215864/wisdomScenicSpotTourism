@@ -3,7 +3,7 @@ module.exports = {
     // 也为发布到线上资源的 URL 前缀
     // 使用的是相对路径，默认为 ''
     publicPath: process.env.NODE_ENV === 'production'
-        ? '/WisdomScenicSpotTourism/'
+        ? './'
         : '/',
     // 将构建好的文件输出到哪里
     outputDir: 'WisdomScenicSpotTourism',
@@ -14,7 +14,7 @@ module.exports = {
             // 模板来源
             template: 'public/index.html',
             // 在 dist/apply.html 的输出  包名称
-            filename: 'apply.html',
+            filename: 'index.html',
             // 当使用 title 选项时，
             // template 中的 title 标签需要是 <title><%= htmlWebpackPlugin.options.title %></title>
             title: '导游导览系统',

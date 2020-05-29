@@ -12,7 +12,7 @@ const logins = [
     component: userCenter,
     meta: {
       level: 1,
-      isRequireAuth: false,
+      isRequireAuth: true,
       title: '个人中心' //  网页title
     }
   },
@@ -42,7 +42,7 @@ const logins = [
     component: ticketDetail,
     meta: {
       level: 2,
-      isRequireAuth: false,
+      isRequireAuth: true,
       title: '门票详情' //  网页title
     }
   },
@@ -52,7 +52,7 @@ const logins = [
     component: parkingDetail,
     meta: {
       level: 2,
-      isRequireAuth: false,
+      isRequireAuth: true,
       title: '停车详情' //  网页title
     }
   },

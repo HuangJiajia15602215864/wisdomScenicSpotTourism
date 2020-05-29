@@ -5,8 +5,10 @@
       <van-field v-model="carNum" clearable label="车牌号" placeholder="请输入车牌号" />
       <van-cell is-link @click="showPopup('date')">停车日期<span class="parking-time"
           id="parking-date">{{parkingDate}}</span></van-cell>
-      <van-cell is-link @click="showPopup('time')">停车时间<span class="parking-time"
-          id="parking-time">{{parkingTime}}</span></van-cell>
+      <van-cell is-link @click="showPopup('startTime')">停车开始时间<span class="parking-time"
+          id="parking-time">{{parkingStartTime}}</span></van-cell>
+      <van-cell is-link @click="showPopup('endTime')">停车结束时间<span class="parking-time"
+          id="parking-time">{{parkingEndTime}}</span></van-cell>
     </van-cell-group>
 
     <van-popup v-model="showSelectPopup" position="bottom">
@@ -27,13 +29,18 @@
   import {
     isNoValue
   } from '@/utils/verify'
+  import {
+    parking
+  } from '@/utils/apply.url';
   export default {
     name: 'stopAppointment',
     data() {
       return {
         carNum: '',
         parkingDate: '',
-        parkingTime: '',
+        parkingStartTime: '',
+        parkingEndTime: '',
+        startTime: 0,
         currentSelectDate: '',
         showSelectPopup: false,
         title: "请选择停车日期",
@@ -53,15 +60,19 @@
         return maxDate;
       }
     },
-    watch: {},
-    components: {},
     methods: {
       // 弹出选择器
       showPopup(value) {
         if (value == 'date') {
           this.title = "请选择停车日期";
           this.type = "date";
+          this.startTime = 1;
+        } else if (value == 'startTime') {
+          this.startTime = 2;
+          this.title = "请选择停车时间";
+          this.type = "time";
         } else {
+          this.startTime = 3;
           this.title = "请选择停车时间";
           this.type = "time";
         }
@@ -69,11 +80,18 @@
       },
       // 确定选择
       confirmSelect() {
+        var d = new Date();
+        var year = d.getFullYear();
+        var month = d.getMonth() + 1;
+        var day = d.getDate();
+        var today = year + "-" + month + "-" + day;
         this.showSelectPopup = false;
-        if (this.currentSelectDate.indexOf('-') > -1) {
-          this.parkingDate = this.currentSelectDate;
+        if (this.startTime == 1) {
+          this.parkingDate = this.currentSelectDate == '' ? today : this.currentSelectDate;
+        } else if (this.startTime == 2) {
+          this.parkingStartTime = this.currentSelectDate == '' ? '7:00' : this.currentSelectDate;
         } else {
-          this.parkingTime = this.currentSelectDate;
+          this.parkingEndTime = this.currentSelectDate == '' ? '7:00' : this.currentSelectDate;
         }
       },
       // 取消选择
@@ -103,11 +121,28 @@
           Toast('停车日期不能为空')
           return
         }
-        if (isNoValue(this.parkingTime)) {
-          Toast('停车时间不能为空')
+        if (isNoValue(this.parkingStartTime)) {
+          Toast('停车开始时间不能为空')
           return
         }
-        Toast.success('预约成功');
+        if (isNoValue(this.parkingEndTime)) {
+          Toast('停车结束时间不能为空')
+          return
+        }
+        var params = {
+          carNum: this.carNum,
+          parkingStartTime: this.parkingDate + ' ' + this.parkingStartTime,
+          parkingEndTime: this.parkingDate + ' ' + this.parkingEndTime
+        }
+        parking(params, 'post').then(res => {
+          if (res.code == '200') { // 预约成功
+            Toast('预约成功，可前往个人中心查看停车信息');
+          } else { // 该车对应时间段已预约
+            Toast('该车对应时间段已预约');
+          }
+        }).catch(err => {
+          Toast('登录失败' || res.msg);
+        });
       }
 
     },

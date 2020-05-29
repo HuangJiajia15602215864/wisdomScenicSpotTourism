@@ -74,10 +74,10 @@ const introduction = [
     component: stopAppointment,
     meta: {
       level: 2, // 路由层级
-      isRequireAuth: false, // 是否需要登录，会根据这个进行路由拦截
+      isRequireAuth: true, // 是否需要登录，会根据这个进行路由拦截
       title: '预约停车' //  网页title
     }
-  },
+  }
 ]
 
 export default introduction

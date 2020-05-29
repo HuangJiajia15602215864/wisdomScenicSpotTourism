@@ -8,7 +8,7 @@
           <div class="activity-info-desc">{{activityInfo.desc}}</div>
         </div>
         <div>
-        <img class="activity-info-image" :src="activityInfo.image" />
+          <img class="activity-info-image" :src="activityInfo.image" />
         </div>
       </div>
     </div>
@@ -16,26 +16,14 @@
 </template>
 <script>
   import Search from '@/components/search.vue'
+  import {
+    activityinfo,findActivity
+  } from '@/utils/apply.url';
   export default {
     name: 'activityInformation',
     data() {
       return {
-        activityInfoList: [{
-            title: '水生植物馆',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271721217&di=cd9ee3124e5880734682f6fde760271f&imgtype=0&src=http%3A%2F%2Fimg1.juimg.com%2F140915%2F330508-14091520514636.jpg'
-          },
-          {
-            title: '海洋馆',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271750036&di=8d14f3395815f8e5505ea67e6fa31bc3&imgtype=0&src=http%3A%2F%2Fdpic.tiankong.com%2F6t%2F9h%2FQJ9106150115.jpg%3Fx-oss-process%3Dstyle%2Fshows'
-          },
-          {
-            title: '星空印象园',
-            desc: 'Whitehaven beachWhitesunday Island，Whitesunday Islands',
-            image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1577271639513&di=9baee638b3cb067410adc618e3daa386&imgtype=0&src=http%3A%2F%2Ffile06.16sucai.com%2F2016%2F0621%2Ff53a66fda171a74be8e8c5b7e593321c.jpg'
-          }
-        ],
+        activityInfoList: [],
       };
     },
     computed: {},
@@ -43,9 +31,41 @@
     components: {
       Search
     },
+    mounted() {
+      this.activityInfoList = [];
+      activityinfo({}, 'get').then(res => {
+        console.log(11)
+        if (res.length != 0) {
+          var obj = {};
+          for (let i = 0; i < res.length; i++) {
+            obj = {
+              title: res[i].title,
+              desc: res[i].descs,
+              image: res[i].image
+            };
+            this.activityInfoList.push(obj)
+          }
+          console.log(this.activityInfoList)
+        } else {
+          Toast(res.msg);
+        }
+      }).catch(err => {
+        console.log(22)
+        Toast('获取失败' || res.msg);
+      });
+    },
     methods: {
       search(searchWord) {
+        this.activityInfoList = [];
         console.log(searchWord)
+        const params = {
+          searchWord: searchWord
+        }
+        findActivity(params, 'get').then(res => {
+          this.activityInfoList = res;
+        }).catch(err => {
+          Toast('获取失败' || res.msg);
+        });
       }
     },
     created() {}
@@ -67,7 +87,7 @@
     padding: px2rem(20px);
     border-bottom: px2rem(1px) solid #ddd;
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
   }
 
@@ -80,7 +100,7 @@
     font-size: px2rem(36px);
     color: #3D11EE;
     font-weight: 600;
-    
+
   }
 
   .activity-info-desc {

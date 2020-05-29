@@ -9,7 +9,7 @@ const buyTicket = [
     component: ticketReservation,
     meta: {
       level: 1,
-      isRequireAuth: false,
+      isRequireAuth: true,
       title: '门票预订' //  网页title
     }
   },

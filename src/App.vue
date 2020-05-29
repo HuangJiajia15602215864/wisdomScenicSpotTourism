@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <van-nav-bar :title="title" :left-arrow="isShowBack?true:false" fixed right-text="···" v-if="!isWechat" @click-left="goBack">
-            <van-icon name="weapp-nav" slot="right" />
+            <van-icon name="weapp-nav" slot="right" /> 
         </van-nav-bar>
         <div :class="['main', isShowHead ? 'main-showhead' : '']">
             <router-view></router-view>

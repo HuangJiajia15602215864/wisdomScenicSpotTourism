@@ -2,16 +2,6 @@
   <div id="scenicSpotTraffic" class="contain">
     <van-tabs v-model="active" animated @click="onClick" :class="isWechat ? '' : 'top'">
       <van-tab title="景区客流">
-<<<<<<< HEAD
-        <div class="chart-title">入园客流情况（每周）</div>
-        <div id="flowSituation" class="chart"></div>
-        <div class="chart-title">入园客流趋势（每天）</div>
-        <div id="flowTrend" class="chart"></div>
-        <div class="chart-title">各景点售票情况</div>
-        <div id="ticketSales" class="chart"></div>
-        <div class="chart-title">各景点客流变化（每天）</div>
-        <div id="flowChange" class="chart"></div>
-=======
         <div class="box">
           <div class="chart-title">入园客流情况（每周）</div>
           <div id="flowSituation" class="chart"></div>
@@ -22,7 +12,6 @@
           <div class="chart-title">各景点客流变化（每天）</div>
           <div id="flowChange" class="chart"></div>
         </div>
->>>>>>> 9cbdea3b2d771dd1dd3a1c16b8efa1488a13f7b4
       </van-tab>
 
       <van-tab title="景区天气">
@@ -38,9 +27,9 @@
 
       <van-tab title="景区车流">
         <div class="box">
-          <div class="chart-title">车流拥挤程度</div>
-          <div id="TrafficCongestion" class="chart"></div>
-          <div class="chart-title">停车场空余位置</div>
+          <!-- <div class="chart-title">车流拥挤程度</div>
+          <div id="TrafficCongestion" class="chart"></div> -->
+          <div class="chart-title">当前停车场使用情况位置</div>
           <div id="parkingSpace" class="chart"></div>
         </div>
       </van-tab>
@@ -103,7 +92,9 @@
             this.drawCharts('airQualityChange', 'airQualityChangeCharts', chartsOptions.airQualityChangeoption);
           })
         } else {
-
+          this.$nextTick(function () {
+            this.drawCharts('parkingSpace', 'parkingSpaceCharts', chartsOptions.parkingSpaceChartsOption);
+          })
         }
 
       },
@@ -186,5 +177,9 @@
 
   #humidityChange {
     margin-top: px2rem(-50px);
+  }
+
+  #parkingSpace{
+    height:px2rem(800px); 
   }
 </style>

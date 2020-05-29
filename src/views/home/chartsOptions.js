@@ -288,6 +288,57 @@ series: [
 ]
 };
 
+var seriesLabel = {
+  normal: {
+      show: true,
+      textBorderColor: '#333',
+      textBorderWidth: 2
+  }
+}
+const parkingSpaceChartsOption = {
+  tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+          type: 'shadow'
+      }
+  },
+  legend: {
+      data: ['空余车位', '被预约车位', '正在使用车位']
+  },
+  xAxis: {
+      type: 'value',
+      name: '个',
+      axisLabel: {
+          formatter: '{value}'
+      }
+  },
+  yAxis: {
+      type: 'category',
+      inverse: true,
+      data: ['A区', 'B区', 'C区','D区'],
+  },
+  series: [
+      {
+          name: '空余车位',
+          type: 'bar',
+          data: [165, 170, 30,130],
+          label: seriesLabel,
+
+      },
+      {
+          name: '被预约车位',
+          type: 'bar',
+          label: seriesLabel,
+          data: [150, 105, 110,32]
+      },
+      {
+          name: '正在使用车位',
+          type: 'bar',
+          label: seriesLabel,
+          data: [220, 82, 63,125]
+      }
+  ]
+};
 
 
 
@@ -298,5 +349,6 @@ export default {
     flowChangeOption,
     temperatureChangeOption,
     humidityChangeoption,
-    airQualityChangeoption
+    airQualityChangeoption,
+    parkingSpaceChartsOption
 }

@@ -3,10 +3,11 @@
         <div class="user-info">
             <div class="user-card">
                 <div class="user-type" v-if="isLogin"></div>
-                <div class="user-type-desc" v-if="isLogin">{{userType}}</div>
+                <div class="user-type-desc" v-if="isLogin">{{user.userType?'尊贵会员':'普通用户'}}</div>
                 <div class="user-portrait"></div>
-                <div class="user-name" v-if="isLogin">{{name}}</div>
+                <div class="user-name" v-if="isLogin">{{user.nickName}}</div>
                 <div class="user-tel" v-if="isLogin">{{telShow}}</div>
+
                 <div class="user-login" v-if="!isLogin" @click="goLogin">尚未登录，请跳转登录
                     <span class="icon-go">
                         <span class="icon iconfont icon-xiangyou"></span>
@@ -14,25 +15,24 @@
                 </div>
             </div>
         </div>
-
         <van-collapse v-model="activeNames" accordion style="margin-top: 90px;">
             <van-collapse-item name="myTicket" :class="activeNames=='myTicket'?'active':''">
                 <div slot="title" class="collapse-title"><span
                         class="icon iconfont collapse-icon">&#xe67b;</span><span>我的门票</span></div>
                 <!-- 手风琴——门票 -->
-                <van-card v-for="(item,index) in ticketList" :key="index" :num="item.num" :price="item.price"
-                    :title="item.title" :thumb="item.thumb" @click="showTicketDetail('ticket',item)">
+                <van-card v-for="(item,index) in ticketList" :key="index" :num="item.number" :price="item.ticketPay"
+                    :title="item.title" :thumb="item.image" @click="showTicketDetail('ticket',item)">
                     <div slot="tags">
-                        <div>{{item.desc}}</div>
-                        <div>日期：{{item.date}}</div>
-                        <van-tag plain type="danger" v-if="item.ticketType==0">普通票</van-tag>
-                        <van-tag plain type="danger" v-if="item.ticketType==1">儿童票</van-tag>
-                        <van-tag plain type="danger" v-if="item.ticketType==2">学生票</van-tag>
-                        <van-tag plain type="danger" v-if="item.ticketType==3">老人票</van-tag>
-                        <van-tag plain type="danger" v-if="item.ticketType==4">残疾票</van-tag>
-                        <div class="logo used" v-if="item.status==0">已使用</div>
+                        <div>{{item.descs}}</div>
+                        <div>日期：{{item.selectPlayDate}}</div>
+                        <!-- <van-tag plain type="danger" v-if="item.ticketType1==0">普通票</van-tag>
+                        <van-tag plain type="danger" v-if="item.ticketType1==1">儿童票</van-tag>
+                        <van-tag plain type="danger" v-if="item.ticketType1==2">学生票</van-tag>
+                        <van-tag plain type="danger" v-if="item.ticketType1==3">老人票</van-tag>
+                        <van-tag plain type="danger" v-if="item.ticketType1==4">残疾票</van-tag> -->
+                        <!-- <div class="logo used" v-if="item.status==0">已使用</div> -->
                         <div class="logo unused" v-if="item.status==1">未使用</div>
-                        <div class="logo overdue" v-if="item.status==2">已过期</div>
+                        <div class="logo overdue" v-if="item.status==2">已使用</div>
                     </div>
                 </van-card>
             </van-collapse-item>
@@ -41,9 +41,9 @@
                         class="icon iconfont collapse-icon">&#xe6ca;</span><span>我的停车</span></div>
                 <!-- 手风琴——停车 -->
                 <van-card v-for="(item,index) in parkingList" :key="index" :price="item.price" :title="item.carNum"
-                    :desc="item.parkingNum" :thumb="item.thumb" @click="showTicketDetail('parking',item)">
+                    :desc="item.area+'~'+item.num" :thumb="item.thumb" @click="showTicketDetail('parking',item)">
                     <div slot="tags">
-                        <div>时间{{item.date}}</div>
+                        <div>时间:{{item.parkingStartTime+'~'+item.parkingEndTime}}</div>
                         <div class="logo used" v-if="item.status==0">已使用</div>
                         <div class="logo unused" v-if="item.status==1">未使用</div>
                         <div class="logo overdue" v-if="item.status==2">已过期</div>
@@ -51,121 +51,135 @@
                 </van-card>
             </van-collapse-item>
         </van-collapse>
+        <van-button type="danger" size="large" @click="loginOut" v-if="isLogin">退出登录</van-button>
     </div>
 </template>
 <script>
     import {
+        userCenter,
+        parkingSelect,
+        buyList,
+        findTicketById
+    } from '@/utils/apply.url';
+    import {
         Collapse,
         CollapseItem,
         Card,
-        Tag
+        Tag,
+        Button,
+        Toast
     } from 'vant';
     export default {
         name: 'userCenter',
         data() {
             return {
+                user: { // 用户信息
+                    nickName: '',
+                    tel: '',
+                    userType: 0,
+                },
+                userTel: '',
                 isLogin: true,
-                userType: '尊贵会员',
-                name: '小游用户',
                 activeNames: '',
-                ticketList: [{
-                        id: '1',
-                        title: '长隆水上乐园',
-                        desc: '适合盛夏体验水上乐趣',
-                        date: '2019-01-02~2020-01-01',
-                        status: '0',
-                        num: '2',
-                        price: '200.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
-                        ticketType: '0'
-                    },
-                    {
-                        id: '2',
-                        title: '长隆海洋馆',
-                        desc: '与海豚白鲸等海洋动物亲密接触',
-                        date: '2019-01-02~2019-03-30',
-                        status: '1',
-                        num: '3',
-                        price: '200.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
-                        ticketType: '1'
-                    },
-                    {
-                        id: '3',
-                        title: '植物园热带温室',
-                        desc: '体验热带风光',
-                        date: '2019-01-02~2019-01-02',
-                        status: '2',
-                        num: '5',
-                        price: '50.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
-                        ticketType: '2'
-                    },
-                    {
-                        id: '4',
-                        title: '岭南印象园+星空馆',
-                        desc: '玫瑰丛下，见证爱情',
-                        date: '2019-12-25~2020-0-0',
-                        status: '1',
-                        num: '2',
-                        price: '60.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg',
-                        ticketType: '3'
-                    },
-                ],
-                parkingList: [{
-                        id: '1',
-                        carNum: '粤A-32431',
-                        parkingNum: 'A区336',
-                        date: '2019-01-02 15:00',
-                        status: '0',
-                        price: '20.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
-                    },
-                    {
-                        id: '2',
-                        carNum: '粤A-23221',
-                        parkingNum: 'C区336',
-                        date: '2019-01-02 15:00',
-                        status: '1',
-                        price: '20.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
-                    },
-                    {
-                        id: '3',
-                        carNum: '川A-32232',
-                        parkingNum: 'B区336',
-                        date: '2019-01-02 15:00',
-                        status: '2',
-                        price: '20.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
-                    },
-                    {
-                        id: '4',
-                        carNum: '京A-36431',
-                        parkingNum: 'D区336',
-                        date: '2019-01-02 15:00',
-                        status: '0',
-                        price: '20.00',
-                        thumb: 'https://img.yzcdn.cn/vant/t-thirt.jpg'
-                    },
-                ],
+                ticketList: [],
+                parkingList: [],
             };
         },
-        filters: {},
         computed: {
             telShow() {
-                var tel = '15602215864';
-                return tel.substr(0, 3) + "****" + tel.substr(7);
+                return this.user.tel.substr(0, 3) + "****" + this.user.tel.substr(7);
             }
         },
-        watch: {
+        mounted() {
+            this.userTel = sessionStorage.getItem('userTel');
+            if (this.userTel) {
+                this.isLogin = true;
+                userCenter({
+                    tel: this.userTel
+                }, 'get').then(res => {
+                    this.user = {
+                        nickName: res.nickName,
+                        tel: res.tel,
+                        userType: res.userType,
+                    }
+                    this.getParkingList();
+                    this.getTicketList();
 
-        },
-        components: {
-
+                }).catch(err => {
+                    Toast('获取个人信息失败' || res.msg);
+                });
+            } else {
+                this.isLogin = false;
+            }
         },
         methods: {
+            timestampToTime(timestamp) {
+                var date = new Date(timestamp);
+                var Y = date.getFullYear() + '-';
+                var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+                var D = (date.getDate() <10 ? '0' +date.getDate() :date.getDate() )+ ' ';
+                return Y + M + D;
+            },
+            getParkingList() {
+                parkingSelect({
+                    tel: this.userTel
+                }, 'get').then(res => {
+                    if (res.length != 0) {
+                        var obj = {};
+                        for (let i = 0; i < res.length; i++) {
+                            obj = {
+                                carNum: res[i].carNum,
+                                parkingStartTime: this.timestampToTime(res[i].startTime),
+                                parkingEndTime: this.timestampToTime(res[i].endTime),
+                                area: res[i].area,
+                                num: res[i].num,
+                                price: res[i].price + '.00',
+                                thumb: res[i].thumb,
+                                status: res[i].status
+                            };
+                            this.parkingList.push(obj)
+                        }
+                        console.log(this.parkingList)
+                    }
+                }).catch(err => {
+                    Toast('获取我的停车失败' || res.msg);
+                });
+            },
+            getTicketList() {
+                buyList({
+                    tel: this.userTel
+                }, 'get').then(res => {
+                    if (res.length != 0) {
+                        for (let i = 0; i < res.length; i++) {
+                            var obj = {};
+                            obj = {
+                                selectPlayDate: this.timestampToTime(res[i].selectPlayDate),
+                                number: res[i].number,
+                                ticketId: res[i].ticketId,
+                                ticketPay: res[i].ticketPay + '.00',
+                                status: res[i].status,
+                                image: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1590039758079&di=8dc3d04fcc968026646efbf43df0a655&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F60318eb10e8b6ecf4b7ca1eee0bed8749d30b52621857-3pjuGn_fw658'
+                            };
+                            this.ticketList.push(obj)
+                        }
+                        this.getTicketDetail();
+                    }
+                }).catch(err => {
+                    Toast('获取我的门票失败' || res.msg);
+                });
+            },
+            getTicketDetail() {
+                this.ticketList.forEach((item, index) => {
+                    findTicketById({
+                        ticketId: item.ticketId
+                    }, 'get').then(result => {
+                        this.ticketList[index].title = result[0].title,
+                            this.ticketList[index].descs = result[0].descs
+                    }).catch(error => {
+                        Toast('获取电子门票信息失败');
+                    })
+                });
+            },
             showTicketDetail(type, item) {
                 console.log("点击跳转")
                 console.log(item)
@@ -181,7 +195,12 @@
                     this.$router.push({
                         path: '/userCenter/parkingDetail',
                         query: {
-                            item: item
+                            carNum: item.carNum,
+                            parkingStartTime: this.timestampToTime(item.parkingStartTime),
+                            parkingEndTime: this.timestampToTime(item.parkingEndTime),
+                            area: item.area,
+                            num: item.num,
+                            price: item.price
                         }
                     });
                 }
@@ -190,11 +209,14 @@
                 this.$router.push({
                     path: '/login',
                 });
+            },
+            loginOut() {
+                sessionStorage.removeItem('userTel')
+                this.$router.push({
+                    path: '/login',
+                });
             }
         },
-        created() {
-
-        }
     };
 </script>
 
@@ -212,7 +234,7 @@
             top: px2rem(100px);
             left: 7%;
             border-radius: px2rem(10px);
-            z-index: 100;
+            z-index: 50;
             border-bottom: px2rem(15px) solid #3D11EE;
         }
 
@@ -369,5 +391,11 @@
     .unused {
         border: 1px solid #55C463;
         color: #55C463;
+    }
+
+    .van-button--danger {
+        width: 90%;
+        border-radius: px2rem(5px);
+        margin: px2rem(500px) 5% 0 5%;
     }
 </style>
